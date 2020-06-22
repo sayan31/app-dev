@@ -1,0 +1,15 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "angular front-end for this project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Sayan Guha",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^3.4.1",
+    "fuelux": "^3.17.2"
+  }
+}

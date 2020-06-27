@@ -1,7 +1,11 @@
 package com.sayan.fullstack.demospringbootangular.rest;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sayan.fullstack.demospringbootangular.converter.RoomEntityToReservationResponseConverter;
+import com.sayan.fullstack.demospringbootangular.entity.RoomEntity;
 import com.sayan.fullstack.demospringbootangular.model.request.ReservationRequest;
 import com.sayan.fullstack.demospringbootangular.model.response.ReservationResponse;
+import com.sayan.fullstack.demospringbootangular.repository.RoomRepository;
 
 
 
@@ -41,12 +48,30 @@ import com.sayan.fullstack.demospringbootangular.model.response.ReservationRespo
 @RequestMapping(ResourceConstants.ROOM_RESERVATION_V1)
 public class ReservationResource {
 	
+	@Autowired
+	private RoomRepository roomRespository;
+	
+	@Autowired
+	private RoomEntityToReservationResponseConverter roomEntityToReservationResponseConverter;
+	
 	@RequestMapping(path="",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ReservationResponse> getAvailableRooms(
+	public Page<ReservationResponse> getAvailableRooms(
 			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
-			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut) {
+			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
+			Pageable pageable) {
 		
-		return new ResponseEntity<>(new ReservationResponse(), HttpStatus.OK);
+		Page<RoomEntity> listOfAvailableRooms=roomRespository.findAll(pageable);
+		
+		//return new ResponseEntity<>(new ReservationResponse(), HttpStatus.OK);
+		return listOfAvailableRooms.map(roomEntityToReservationResponseConverter::convert);
+	}
+	
+	@RequestMapping(path="/{roomId}",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<RoomEntity> getRoomById(
+			@PathVariable Long roomId){
+		
+		Optional<RoomEntity> roomEntity=roomRespository.findById(roomId);
+		return new ResponseEntity<RoomEntity>(roomEntity.get(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="",method=RequestMethod.POST,produces = MediaType.APPLICATION_JSON_VALUE,

@@ -19,10 +19,10 @@ public class ReservationEntity {
 	private Long id;
 	
 	@NotNull
-	private LocalDate checkin;
+	private LocalDate checkIn;
 	
 	@NotNull
-	private LocalDate checkout;
+	private LocalDate checkOut;
 	
 	@ManyToOne
 	private RoomEntity roomEntity;
@@ -31,10 +31,10 @@ public class ReservationEntity {
 		super();
 	}
 
-	public ReservationEntity(@NotNull LocalDate checkin, @NotNull LocalDate checkout, RoomEntity roomEntity) {
+	public ReservationEntity(@NotNull LocalDate checkIn, @NotNull LocalDate checkOut, RoomEntity roomEntity) {
 		super();
-		this.checkin = checkin;
-		this.checkout = checkout;
+		this.checkIn = checkIn;
+		this.checkOut = checkOut;
 		this.roomEntity = roomEntity;
 	}
 
@@ -47,19 +47,19 @@ public class ReservationEntity {
 	}
 
 	public LocalDate getCheckin() {
-		return checkin;
+		return checkIn;
 	}
 
-	public void setCheckin(LocalDate checkin) {
-		this.checkin = checkin;
+	public void setCheckin(LocalDate checkIn) {
+		this.checkIn = checkIn;
 	}
 
 	public LocalDate getCheckout() {
-		return checkout;
+		return checkOut;
 	}
 
-	public void setCheckout(LocalDate checkout) {
-		this.checkout = checkout;
+	public void setCheckout(LocalDate checkOut) {
+		this.checkOut = checkOut;
 	}
 
 	public RoomEntity getRoomEntity() {

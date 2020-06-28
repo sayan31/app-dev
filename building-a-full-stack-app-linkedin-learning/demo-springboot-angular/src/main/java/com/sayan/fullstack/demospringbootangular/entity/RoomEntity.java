@@ -1,9 +1,15 @@
 package com.sayan.fullstack.demospringbootangular.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -23,6 +29,9 @@ public class RoomEntity {
 	
 	@NotNull
 	private String price;
+	
+	@OneToMany(fetch=FetchType.EAGER,cascade=CascadeType.PERSIST)
+	private List<ReservationEntity> listOfReservations;
 		
 	
 	public RoomEntity() {
@@ -57,6 +66,25 @@ public class RoomEntity {
 
 	public void setPrice(String price) {
 		this.price = price;
-	}	
+	}
+
+	public List<ReservationEntity> getListOfReservations() {
+		return listOfReservations;
+	}
+
+	public void setListOfReservations(List<ReservationEntity> listOfReservations) {
+		this.listOfReservations = listOfReservations;
+	}
+	
+	/**
+	 * @param reservationEntity
+	 * Helper method to create new list in case current is null
+	 */
+	public void addReservationEntity(ReservationEntity reservationEntity) {
+		if(null==listOfReservations) {
+			listOfReservations=new ArrayList<>();
+		}
+		listOfReservations.add(reservationEntity);
+	}
 	
 }

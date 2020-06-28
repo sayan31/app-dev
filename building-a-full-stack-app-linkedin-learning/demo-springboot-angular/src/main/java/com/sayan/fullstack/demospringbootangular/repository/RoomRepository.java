@@ -13,5 +13,4 @@ public interface RoomRepository extends PagingAndSortingRepository<RoomEntity, L
 	
 	Optional<RoomEntity> findById(Long id);
 	
-	//RoomEntity findById(Long id);
 }

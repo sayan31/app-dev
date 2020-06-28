@@ -6,15 +6,15 @@ import org.springframework.stereotype.Component;
 import com.sayan.fullstack.demospringbootangular.entity.RoomEntity;
 import com.sayan.fullstack.demospringbootangular.model.Links;
 import com.sayan.fullstack.demospringbootangular.model.Self;
-import com.sayan.fullstack.demospringbootangular.model.response.ReservationResponse;
+import com.sayan.fullstack.demospringbootangular.model.response.ReservableRoomResponse;
 import com.sayan.fullstack.demospringbootangular.rest.ResourceConstants;
 
 @Component
-public class RoomEntityToReservationResponseConverter implements Converter<RoomEntity,ReservationResponse>{
+public class RoomEntityToReservableRoomResponseConverter implements Converter<RoomEntity,ReservableRoomResponse>{
 
 	@Override
-	public ReservationResponse convert(RoomEntity source) {
-		ReservationResponse reservationResponse = new ReservationResponse();
+	public ReservableRoomResponse convert(RoomEntity source) {
+		ReservableRoomResponse reservationResponse = new ReservableRoomResponse();
 		reservationResponse.setRoomNumber(source.getRoomNumber());
 		reservationResponse.setPrice(Integer.valueOf(source.getPrice()));
 		

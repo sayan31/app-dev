@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sayan.fullstack.demospringbootangular.converter.RoomEntityToReservationResponseConverter;
+import com.sayan.fullstack.demospringbootangular.converter.RoomEntityToReservableRoomResponseConverter;
+import com.sayan.fullstack.demospringbootangular.entity.ReservationEntity;
 import com.sayan.fullstack.demospringbootangular.entity.RoomEntity;
 import com.sayan.fullstack.demospringbootangular.model.request.ReservationRequest;
+import com.sayan.fullstack.demospringbootangular.model.response.ReservableRoomResponse;
 import com.sayan.fullstack.demospringbootangular.model.response.ReservationResponse;
+import com.sayan.fullstack.demospringbootangular.repository.ReservationRepository;
 import com.sayan.fullstack.demospringbootangular.repository.RoomRepository;
 
 
@@ -50,12 +54,15 @@ public class ReservationResource {
 	
 	@Autowired
 	private RoomRepository roomRespository;
-	
 	@Autowired
-	private RoomEntityToReservationResponseConverter roomEntityToReservationResponseConverter;
+	private ReservationRepository reservationRespository;
+	@Autowired
+	private ConversionService conversionService;
+	@Autowired
+	private RoomEntityToReservableRoomResponseConverter roomEntityToReservationResponseConverter;
 	
 	@RequestMapping(path="",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public Page<ReservationResponse> getAvailableRooms(
+	public Page<ReservableRoomResponse> getAvailableRooms(
 			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkIn,
 			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
 			Pageable pageable) {
@@ -79,15 +86,26 @@ public class ReservationResource {
 	public ResponseEntity<ReservationResponse> createReservation(
 			@RequestBody ReservationRequest reservationRequest){
 		
-		return new ResponseEntity<>(new ReservationResponse(), HttpStatus.CREATED);
+		ReservationEntity reservationEntity = conversionService.convert(reservationRequest, ReservationEntity.class);
+		
+		reservationRespository.save(reservationEntity);
+		
+		Optional<RoomEntity> roomEntity=roomRespository.findById(reservationRequest.getRoomId());
+		roomEntity.get().addReservationEntity(reservationEntity);
+		roomRespository.save(roomEntity.get());
+		
+		reservationEntity.setRoomEntity(roomEntity.get());
+		
+		ReservationResponse reservationResponse = conversionService.convert(reservationEntity,ReservationResponse.class);
+		return new ResponseEntity<>(reservationResponse, HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(path="",method=RequestMethod.PUT,produces = MediaType.APPLICATION_JSON_VALUE,
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ReservationResponse> updateReservation(
+	public ResponseEntity<ReservableRoomResponse> updateReservation(
 			@RequestBody ReservationRequest reservationRequest){
 		
-		return new ResponseEntity<>(new ReservationResponse(), HttpStatus.OK);
+		return new ResponseEntity<>(new ReservableRoomResponse(), HttpStatus.OK);
 	}
 	
 	@RequestMapping(path="/{reservationId}",method=RequestMethod.DELETE)

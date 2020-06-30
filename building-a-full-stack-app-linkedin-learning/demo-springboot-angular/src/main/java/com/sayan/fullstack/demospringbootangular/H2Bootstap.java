@@ -26,7 +26,7 @@ public class H2Bootstap implements CommandLineRunner {
 		
 		System.out.println("Printing data...");
 		for(RoomEntity room:roomItr) {
-			System.out.println(room.getRoomNumber());
+			System.out.println(room.getId());
 		}
 	}
 

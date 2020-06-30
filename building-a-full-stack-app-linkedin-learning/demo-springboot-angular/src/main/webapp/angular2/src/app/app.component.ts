@@ -1,64 +1,71 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import {Http, Response} from "@angular/http";
+import {Observable} from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.css']
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
 
-	public submitted: boolean;
-	roomsearch: FormGroup;
-	rooms: Room[];
+  constructor(private http:Http) {
+  }
 
-	ngOnInit() {
-		this.roomsearch = new FormGroup({
-			checkin: new FormControl(''),
-			checkout: new FormControl('')
-		});
-		
-		this.rooms=ROOMS;
-	}
+  private baseUrl:string = 'http://localhost:8080';
+  public submitted:boolean;
+  roomsearch : FormGroup;
+  rooms: Room[];
 
-	onSubmit({ value, valid}: { value: Roomsearch, valid: boolean }) {
-		console.log(value);
-	}
-	
-	reserveRoom(value:string){
-		console.log("Room id:"+value);
-	}
+    ngOnInit() {
+        this.roomsearch = new FormGroup({
+            checkin: new FormControl(''),
+            checkout: new FormControl('')
+        });
+
+    }
+
+  onSubmit({value, valid}: { value:Roomsearch, valid:boolean }) {
+
+    this.getAll()
+      .subscribe(
+        rooms => this.rooms = rooms,
+        err => {
+          // Log errors if any
+          console.log(err);
+        });
+  }
+
+    reserveRoom(value:string) {
+      console.log("Room id for reservation:" + value);
+    }
+
+  getAll():Observable<Room[]> {
+
+    //noinspection TypeScriptValidateTypes
+    return this.http
+      .get(`${this.baseUrl}/room/reservation/v1?checkIn=02-03-2018&&checkOut=03-04-2019`)
+      .map(this.mapRoom);
+  }
+
+  mapRoom(response:Response):Room[] {
+    return response.json().content;
+  }
+
 }
+
 export interface Roomsearch {
-	checkin: string;
-	checkout: string;
+  checkin:string;
+  checkout:string;
 }
 
 export interface Room {
-	id: string;
-	roomNumber: string;
-	price: string;
-	links:string;
+  id: string;
+  roomNumber: string;
+  price: string;
+  links: string;
 }
 
-/**The array below simulates a response from REST API */
-var ROOMS:Room[]=[
-	{
-		"id": "35446565",
-		roomNumber:"101",
-		price:"2000",
-		links:""		
-	},
-	{
-		"id": "45446565",
-		roomNumber:"102",
-		price:"2000",
-		links:""		
-	},
-	{
-		"id": "55446565",
-		roomNumber:"103",
-		price:"2100",
-		links:""		
-	}
-]

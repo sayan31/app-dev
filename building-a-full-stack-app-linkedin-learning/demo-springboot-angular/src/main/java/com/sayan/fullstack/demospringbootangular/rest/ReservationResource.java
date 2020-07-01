@@ -69,8 +69,7 @@ public class ReservationResource {
 			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate checkOut,
 			Pageable pageable) {
 		
-		Page<RoomEntity> listOfAvailableRooms=roomRespository.findAll(pageable);
-		for(RoomEntity room:)
+		Page<RoomEntity> listOfAvailableRooms=roomRespository.findAll(pageable);		
 		//return new ResponseEntity<>(new ReservationResponse(), HttpStatus.OK);
 		return listOfAvailableRooms.map(roomEntityToReservationResponseConverter::convert);
 	}

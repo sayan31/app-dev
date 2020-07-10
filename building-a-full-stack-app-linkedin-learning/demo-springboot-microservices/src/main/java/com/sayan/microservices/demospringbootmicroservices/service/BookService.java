@@ -3,22 +3,23 @@ package com.sayan.microservices.demospringbootmicroservices.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
-import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
 import com.sayan.microservices.demospringbootmicroservices.repository.BookRepository;
 
 @Service
 public class BookService {
 	
+	@Autowired
 	private BookRepository bookRepository;
-	private AuthorRepository authorRepository;
 	
 	@Autowired
-	public BookService(BookRepository bookRepository,AuthorRepository authorRepository) {
+	private AuthorService authorService;
+		
+	public BookService(BookRepository bookRepository) {
 		this.bookRepository = bookRepository;
-		this.authorRepository= authorRepository;
 	}
+	
+
 	
 	/**
 	 * Add a book to the database
@@ -29,11 +30,10 @@ public class BookService {
 	 *  
 	 * @return new or existing book
 	 */
-	public BookTable addBook(String bookName,String description,Long isbn,String authorLastName, String authorFirstName, String authorAbout) {
-		BookTable bookTable = new BookTable(bookName,description,isbn);
-		BookTable returnedFromSave= bookRepository.findByName(bookName).orElse(bookRepository.save(bookTable));
-		authorRepository.save(new AuthorTable(authorLastName,authorFirstName,authorAbout));
-		return returnedFromSave;
+	public BookTable addBook(BookTable book) {
+		BookTable returned = bookRepository.findByBookName(book.getBookName()).orElse(bookRepository.save(book));
+		book.getAuthor().forEach(author->authorService.addAuthor(author));
+		return returned;
 	}
 
 }

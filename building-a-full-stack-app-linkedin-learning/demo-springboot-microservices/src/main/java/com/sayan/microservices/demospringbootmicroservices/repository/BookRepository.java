@@ -8,7 +8,7 @@ import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 
 public interface BookRepository extends CrudRepository<BookTable, Long> {
 	
-	Optional<BookTable> findByName(String bookName);
+	Optional<BookTable> findByBookName(String bookName);
 	
 	//This enables this method to save items of the type BookTable 
 	//as generic type S extends it.

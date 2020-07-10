@@ -19,16 +19,16 @@ public class BookTable {
 	private Long id;
 	
 	@Column
-	private String bookName;
-	
-	@ManyToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)	
-	private List<AuthorTable> authors;
+	private String bookName;	
 	
 	@Column
 	private String description;
 	
 	@Column
 	private Long isbn;
+	
+	@ManyToMany(mappedBy="books",fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)	
+	private List<AuthorTable> authors;
 
 	
 	/**
@@ -39,10 +39,11 @@ public class BookTable {
 	 * Constructor to generate an instance of a book
 	 */
 
-	public BookTable(String bookName, String description, Long isbn) {
+	public BookTable(String bookName, String description, Long isbn, List<AuthorTable> authors) {
 		this.bookName = bookName;
 		this.description = description;
 		this.isbn = isbn;
+		this.authors=authors;
 	}
 	
 	protected BookTable() {

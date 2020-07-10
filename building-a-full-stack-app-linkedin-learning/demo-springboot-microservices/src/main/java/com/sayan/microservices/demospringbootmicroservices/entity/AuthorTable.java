@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,8 +28,8 @@ public class AuthorTable {
 	@Column
 	private String authorAbout;
 	
-	@ManyToMany
-	@JoinTable(name="BookTable_AuthorTable",joinColumns={@JoinColumn(name="author_id")},inverseJoinColumns = {@JoinColumn(name = "book_id")})
+	@ManyToMany(fetch=FetchType.LAZY)
+	@JoinTable(name="BookTable_AuthorTable",joinColumns={@JoinColumn(name="author_id",referencedColumnName="id")},inverseJoinColumns = {@JoinColumn(name = "book_id",referencedColumnName ="id")})
 	private List<BookTable> books;
 
 	public AuthorTable(String authorLastName, String authorFirstName, String authorAbout) {
@@ -80,7 +81,6 @@ public class AuthorTable {
 	public void setBook(BookTable book) {
 		books.add(book);
 		book.getAuthor().add(this);
-	}
-	
+	}	
 	
 }

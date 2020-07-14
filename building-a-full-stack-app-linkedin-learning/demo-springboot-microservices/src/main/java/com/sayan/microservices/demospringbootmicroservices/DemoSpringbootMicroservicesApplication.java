@@ -1,21 +1,31 @@
 package com.sayan.microservices.demospringbootmicroservices;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
-import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
+import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sayan.microservices.demospringbootmicroservices.service.AuthorService;
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
 
 @SpringBootApplication
 public class DemoSpringbootMicroservicesApplication implements CommandLineRunner{
+	
+	@Value("${demospringbootmicroservices.importFile}")
+	private String importFile;
 	@Autowired
 	private BookService bookService;
+	@Autowired
+	private AuthorService authorService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoSpringbootMicroservicesApplication.class, args);
@@ -23,11 +33,33 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 
 	@Override
 	public void run(String... args) throws Exception {
-		createAllBooksAndAuthors();		
+		createAllAuthors(importFile);		
 	}
 
-	private void createAllBooksAndAuthors() {		
-		bookService.addBook(new BookTable("The Predator's Ball", "", 9780140120905L,new ArrayList<AuthorTable>()));
-		bookService.addBook(new BookTable("Annapurna: The First Conquest of an 8000-Metre Peak", "", 99541467L,new ArrayList<AuthorTable>(Arrays.asList(new AuthorTable("Herzog", "Maurice", "Herzog was a French alpinist most famously associated with the conquest of Annapurna in June 1950."),new AuthorTable("Simpson", "Joe", "Joe Simpson is the author of the bestselling Touching the Void, as well as four subsequent non-fiction books published by The Mountaineers Books: This Game of Ghosts, Storms of Silence, Dark Shadows Falling, and The Beckoning Silence.")))));
+	private void createAllAuthors(String fileToImport) throws IOException{		
+		AuthorFromFile.read(fileToImport).forEach(importedAuthor->authorService.addAuthor(importedAuthor.getAuthorLastName(),importedAuthor.getAuthorFirstName(),importedAuthor.getAuthorAbout()));
+	}
+	
+	private static class AuthorFromFile{
+		private String authorLastName,authorFirstName,authorAbout;
+		
+		static List<AuthorFromFile> read(String fileToImport) throws IOException {
+            return new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY).
+                    readValue(new FileInputStream(fileToImport), new TypeReference<List<AuthorFromFile>>() {});
+        }
+		
+		protected AuthorFromFile() {}
+
+		public String getAuthorLastName() {
+			return authorLastName;
+		}		
+
+		public String getAuthorFirstName() {
+			return authorFirstName;
+		}		
+
+		public String getAuthorAbout() {
+			return authorAbout;
+		}			
 	}
 }

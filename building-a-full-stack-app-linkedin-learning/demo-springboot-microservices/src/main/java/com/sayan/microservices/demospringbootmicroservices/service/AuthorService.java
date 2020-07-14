@@ -26,7 +26,10 @@ public class AuthorService {
 	 * @return new or existing book
 	 */
 	public AuthorTable addAuthor(AuthorTable author) {
-		return authorRepository.findById(author.getId()).orElse(authorRepository.save(author));
+		return authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName()).orElse(authorRepository.save(author));
 	}
-
-}
+	
+	public AuthorTable addAuthor(String authorLastName,String authorFirstName,String authorAbout) {
+		return authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(authorLastName,authorFirstName).orElse(authorRepository.save(new AuthorTable(authorLastName,authorFirstName,authorAbout)));
+	}
+}	

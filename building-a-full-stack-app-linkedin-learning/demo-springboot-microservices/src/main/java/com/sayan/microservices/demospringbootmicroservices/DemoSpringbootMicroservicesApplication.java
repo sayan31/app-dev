@@ -14,18 +14,19 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sayan.microservices.demospringbootmicroservices.service.AuthorService;
+import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
 
 @SpringBootApplication
-public class DemoSpringbootMicroservicesApplication implements CommandLineRunner{
-	
+public class DemoSpringbootMicroservicesApplication implements CommandLineRunner {
+
 	@Value("${demospringbootmicroservices.importFile}")
 	private String importFile;
 	@Autowired
 	private BookService bookService;
-	@Autowired
-	private AuthorService authorService;
+	/*
+	 * @Autowired private AuthorService authorService;
+	 */
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoSpringbootMicroservicesApplication.class, args);
@@ -33,33 +34,50 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 
 	@Override
 	public void run(String... args) throws Exception {
-		createAllAuthors(importFile);		
+		createAllAuthors(importFile);
 	}
 
-	private void createAllAuthors(String fileToImport) throws IOException{		
-		AuthorFromFile.read(fileToImport).forEach(importedAuthor->authorService.addAuthor(importedAuthor.getAuthorLastName(),importedAuthor.getAuthorFirstName(),importedAuthor.getAuthorAbout()));
+	private void createAllAuthors(String fileToImport) throws IOException {
+		ObjectMapperHelper.readJsonWithObjectMapper(fileToImport).forEach(importedBook->bookService.addBook(importedBook));
 	}
 	
-	private static class AuthorFromFile{
-		private String authorLastName,authorFirstName,authorAbout;
-		
-		static List<AuthorFromFile> read(String fileToImport) throws IOException {
-            return new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY).
-                    readValue(new FileInputStream(fileToImport), new TypeReference<List<AuthorFromFile>>() {});
-        }
-		
-		protected AuthorFromFile() {}
-
-		public String getAuthorLastName() {
-			return authorLastName;
-		}		
-
-		public String getAuthorFirstName() {
-			return authorFirstName;
-		}		
-
-		public String getAuthorAbout() {
-			return authorAbout;
-		}			
+	private static class ObjectMapperHelper{
+		public static List<BookTable> readJsonWithObjectMapper(String fileToImport) throws IOException{
+			ObjectMapper objectMapper = new ObjectMapper();
+			List<BookTable> books=objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY).readValue(new FileInputStream(fileToImport), new TypeReference<List<BookTable>>(){});
+			return books;
+		}
 	}
+
+	/*private static class BookFromFile {
+
+		private String bookName, description;
+		private Long isbn;
+		private List<AuthorTable> authors;
+
+		static List<BookFromFile> read(String fileToImport) throws IOException {
+			return new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
+					.readValue(new FileInputStream(fileToImport), new TypeReference<List<BookFromFile>>() {
+					});
+		}
+
+		/* protected BookFromFile() {} 
+
+		public String getBookName() {
+			return bookName;
+		}
+
+		public String getDescription() {
+			return description;
+		}
+
+		public Long getIsbn() {
+			return isbn;
+		}
+
+		public List<AuthorTable> getAuthors() {
+			return authors;
+		}
+	}*/
+	
 }

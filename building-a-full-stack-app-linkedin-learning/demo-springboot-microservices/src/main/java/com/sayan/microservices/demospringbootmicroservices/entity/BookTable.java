@@ -1,6 +1,6 @@
 package com.sayan.microservices.demospringbootmicroservices.entity;
 
-import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,14 +21,14 @@ public class BookTable {
 	@Column
 	private String bookName;	
 	
-	@Column
+	@Column(length=2000)
 	private String description;
 	
 	@Column
 	private Long isbn;
 	
 	@ManyToMany(mappedBy="books",fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)	
-	private List<AuthorTable> authors;
+	private Set<AuthorTable> authors;
 
 	
 	/**
@@ -39,7 +39,7 @@ public class BookTable {
 	 * Constructor to generate an instance of a book
 	 */
 
-	public BookTable(String bookName, String description, Long isbn, List<AuthorTable> authors) {
+	public BookTable(String bookName, String description, Long isbn, Set<AuthorTable> authors) {
 		this.bookName = bookName;
 		this.description = description;
 		this.isbn = isbn;
@@ -71,14 +71,16 @@ public class BookTable {
 	}
 
 
-	public List<AuthorTable> getAuthor() {
+	public Set<AuthorTable> getAuthor() {
 		return authors;
 	}
 
 
 	public void setAuthor(AuthorTable author) {
+		/*
+		 * authors.add(author); author.getBook().add(this);
+		 */
 		authors.add(author);
-		author.getBook().add(this);
 	}
 
 

@@ -27,7 +27,7 @@ public class BookTable {
 	@Column
 	private Long isbn;
 	
-	@ManyToMany(mappedBy="books",fetch=FetchType.LAZY, cascade=CascadeType.PERSIST)	
+	@ManyToMany(mappedBy="books",fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST,CascadeType.MERGE})	
 	private Set<AuthorTable> authors;
 
 	
@@ -39,11 +39,10 @@ public class BookTable {
 	 * Constructor to generate an instance of a book
 	 */
 
-	public BookTable(String bookName, String description, Long isbn, Set<AuthorTable> authors) {
+	public BookTable(String bookName, String description, Long isbn) {
 		this.bookName = bookName;
 		this.description = description;
 		this.isbn = isbn;
-		this.authors=authors;
 	}
 	
 	protected BookTable() {
@@ -77,10 +76,7 @@ public class BookTable {
 
 
 	public void setAuthor(AuthorTable author) {
-		/*
-		 * authors.add(author); author.getBook().add(this);
-		 */
-		authors.add(author);
+		author.getBook().add(this);
 	}
 
 
@@ -101,7 +97,5 @@ public class BookTable {
 
 	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
-	}
-	
-	
+	}		
 }

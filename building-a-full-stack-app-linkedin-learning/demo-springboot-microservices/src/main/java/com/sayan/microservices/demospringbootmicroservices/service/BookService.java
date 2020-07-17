@@ -13,9 +13,16 @@ import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
 import com.sayan.microservices.demospringbootmicroservices.repository.BookRepository;
 
+/**
+ * @author S
+ *
+ */
 @Service
 public class BookService {
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private BookRepository bookRepository;
 	
@@ -26,34 +33,44 @@ public class BookService {
 		this.bookRepository = bookRepository;
 	}
 	
+	/**
+	 * The set of authors to insert into the database with a book
+	 */
 	private Set<AuthorTable> setOfAuthorsToInsert = new HashSet<>();
 	
 	private BookTable returned;
+	
 	/**
-	 * Add a book to the database
+	 * Add a book to the database.
+	 * -------------------------------
+	 * A book can have one or more authors associated with it.
 	 * 
-	 * @param bookName: Name of the book
-	 * @param description: Brief description
-	 * @param isbn: ISBN number of the book
-	 *  
-	 * @return new or existing book
+	 * If a book has only one author and that author is already present in the database,
+	 * the author is not added again.
+	 * 
+	 * In case of multiple authors of a book who are already in the database, they are removed
+	 * before saving the unique authors for the book.
+	 * 
+	 * @param book -  instance of BookTable entity that has to be entered into database.
+	 * @return returned - the instance that was saved to the database
 	 */
 	public BookTable addBook(BookTable book) {		
 		Optional<BookTable> returnedBook = bookRepository.findByBookName(book.getBookName());
-		/*
-		 * book.getAuthor().forEach(author->authorService.addAuthor(author)); return
-		 * returned;
-		 */
+		setOfAuthorsToInsert.clear();
 		for(AuthorTable author:book.getAuthor()) {
 			Optional<List<AuthorTable>> returnedAuthors = authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName());
 			if(!returnedAuthors.isPresent()) {
-				setOfAuthorsToInsert.add(author);
+				setOfAuthorsToInsert.add(author);				
+			}else {
+				book.getAuthor().remove(author);
 			}
 		}
-		for(AuthorTable authorToInsert:setOfAuthorsToInsert) {
-			book.setAuthor(authorToInsert);
+		
+		if (!setOfAuthorsToInsert.isEmpty()) {
+			for (AuthorTable authorToInsert : setOfAuthorsToInsert) {
+				book.setAuthor(authorToInsert);
+			} 
 		}
-		//setOfAuthorsToInsert.forEach(author->book.setAuthor(author));
 		if(!returnedBook.isPresent()) {
 			returned = bookRepository.save(book);
 		}

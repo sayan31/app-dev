@@ -1,7 +1,9 @@
 package com.sayan.microservices.demospringbootmicroservices.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,9 +33,9 @@ public class AuthorTable {
 	@Column
 	private String authorAbout;
 	
-	@ManyToMany(fetch=FetchType.LAZY)
+	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinTable(name="BookTable_AuthorTable",joinColumns={@JoinColumn(name="author_id",referencedColumnName="id")},inverseJoinColumns = {@JoinColumn(name = "book_id",referencedColumnName ="id")})
-	private List<BookTable> books;
+	private Set<BookTable> books = new HashSet<>();
 
 	public AuthorTable(String authorLastName, String authorFirstName, String authorAbout) {
 		this.authorLastName = authorLastName;
@@ -77,8 +79,8 @@ public class AuthorTable {
 		this.authorAbout = authorAbout;
 	}
 
-	public List<BookTable> getBook() {
-		return books;
+	public Set<BookTable> getBook() {
+		return books;		
 	}
 
 	public void setBook(BookTable book) {

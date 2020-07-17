@@ -34,10 +34,10 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 
 	@Override
 	public void run(String... args) throws Exception {
-		createAllAuthors(importFile);
+		createAllBooksAndAuthors(importFile);
 	}
 
-	private void createAllAuthors(String fileToImport) throws IOException {
+	private void createAllBooksAndAuthors(String fileToImport) throws IOException {
 		ObjectMapperHelper.readJsonWithObjectMapper(fileToImport).forEach(importedBook->bookService.addBook(importedBook));
 	}
 	
@@ -47,37 +47,5 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 			List<BookTable> books=objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY).readValue(new FileInputStream(fileToImport), new TypeReference<List<BookTable>>(){});
 			return books;
 		}
-	}
-
-	/*private static class BookFromFile {
-
-		private String bookName, description;
-		private Long isbn;
-		private List<AuthorTable> authors;
-
-		static List<BookFromFile> read(String fileToImport) throws IOException {
-			return new ObjectMapper().setVisibility(PropertyAccessor.FIELD, Visibility.ANY)
-					.readValue(new FileInputStream(fileToImport), new TypeReference<List<BookFromFile>>() {
-					});
-		}
-
-		/* protected BookFromFile() {} 
-
-		public String getBookName() {
-			return bookName;
-		}
-
-		public String getDescription() {
-			return description;
-		}
-
-		public Long getIsbn() {
-			return isbn;
-		}
-
-		public List<AuthorTable> getAuthors() {
-			return authors;
-		}
-	}*/
-	
+	}	
 }

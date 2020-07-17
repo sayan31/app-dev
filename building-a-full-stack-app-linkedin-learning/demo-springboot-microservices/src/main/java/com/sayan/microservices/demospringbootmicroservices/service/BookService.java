@@ -76,5 +76,12 @@ public class BookService {
 		}
 		return returned;
 	}
+	
+	/**
+	 * @return all the books currently present in the database
+	 */
+	public List<BookTable> getAllBooks(){
+		return bookRepository.findAll();
+	}
 
 }

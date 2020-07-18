@@ -35,6 +35,11 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception {
 		createAllBooksAndAuthors(importFile);
+		displayAllBooks();
+	}
+
+	private void displayAllBooks() {
+		bookService.getAllBooks();
 	}
 
 	private void createAllBooksAndAuthors(String fileToImport) throws IOException {

@@ -68,7 +68,7 @@ public class BookService {
 		
 		if (!setOfAuthorsToInsert.isEmpty()) {
 			for (AuthorTable authorToInsert : setOfAuthorsToInsert) {
-				book.setAuthor(authorToInsert);
+				book.addAuthor(authorToInsert);
 			} 
 		}
 		if(!returnedBook.isPresent()) {

@@ -1,5 +1,7 @@
 package com.sayan.microservices.demospringbootmicroservices.entity;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -9,8 +11,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+/**
+ * @author S
+ * This is the representation of one BookTable record in the database.
+ * There is a many-to-many association with the AuthorTable table.
+ * This is the entity that is the owner of the Book-Author relationship.
+ * Changes are propagated to the database from this side alone. 
+ * A new AuthorTable instance can only be added through a BookTable instance.
+ */
 @Entity
 public class BookTable {
 	
@@ -27,28 +39,39 @@ public class BookTable {
 	@Column
 	private Long isbn;
 	
-	@ManyToMany(mappedBy="books",fetch=FetchType.LAZY, cascade= {CascadeType.PERSIST,CascadeType.MERGE})	
-	private Set<AuthorTable> authors;
-
+	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	@JoinTable(name="BookTable_AuthorTable",joinColumns={@JoinColumn(name="book_id",referencedColumnName="id")},inverseJoinColumns = {@JoinColumn(name = "author_id",referencedColumnName ="id")})
+	private Set<AuthorTable> authors = new HashSet<>();
 	
 	/**
-	 * @param bookName
 	 * @param author
-	 * @param description
-	 * @param isbn
-	 * Constructor to generate an instance of a book
+	 * Helper to add an author to set of authors for this book
 	 */
-
-	public BookTable(String bookName, String description, Long isbn) {
-		this.bookName = bookName;
-		this.description = description;
-		this.isbn = isbn;
+	public void addAuthor(AuthorTable author) {
+		this.authors.add(author);
+		author.getBooks().add(this);
 	}
 	
-	protected BookTable() {
-		super();
+	/**
+	 * @param author
+	 * Helper to remove an author from the set of authors for this book
+	 */
+	public void removeAuthor(AuthorTable author) {
+		this.authors.remove(author);
+		author.getBooks().remove(this);
 	}
-
+	
+	/**
+	 * Removes all authors for this particular book 
+	 */
+	public void removeAuthors() {
+        Iterator<AuthorTable> iterator = this.authors.iterator();
+        while (iterator.hasNext()) {
+        	AuthorTable author = iterator.next();
+        	author.getBooks().remove(this);
+            iterator.remove();
+        }
+    }
 
 	public Long getId() {
 		return id;
@@ -75,8 +98,8 @@ public class BookTable {
 	}
 
 
-	public void setAuthor(AuthorTable author) {
-		author.getBook().add(this);
+	public void setAuthor(Set<AuthorTable> authors) {
+		this.authors=authors;
 	}
 
 
@@ -97,5 +120,30 @@ public class BookTable {
 
 	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
-	}		
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return id != null && id.equals(((BookTable) obj).id);
+	}
+
+	@Override
+	public String toString() {
+		return "Book{" + "id=" + id + ", name=" + bookName
+                + ", description=" + description + ", isbn=" + isbn + '}';
+	}	
+	
+	
 }

@@ -35,12 +35,12 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 	@Override
 	public void run(String... args) throws Exception {
 		createAllBooksAndAuthors(importFile);
-		displayAllBooks();
+		//displayAllBooks();
 	}
 
-	private void displayAllBooks() {
-		bookService.getAllBooks();
-	}
+	/*
+	 * private void displayAllBooks() { bookService.getAllBooks(); }
+	 */
 
 	private void createAllBooksAndAuthors(String fileToImport) throws IOException {
 		ObjectMapperHelper.readJsonWithObjectMapper(fileToImport).forEach(importedBook->bookService.addBook(importedBook));

@@ -137,6 +137,11 @@ public class BookTable {
         }
 
         return id != null && id.equals(((BookTable) obj).id);
+	}		
+	
+	@Override
+	public int hashCode() {
+		return 2021;
 	}
 
 	@Override

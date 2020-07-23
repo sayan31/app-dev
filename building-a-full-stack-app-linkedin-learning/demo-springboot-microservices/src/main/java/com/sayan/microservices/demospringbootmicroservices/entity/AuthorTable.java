@@ -76,4 +76,32 @@ public class AuthorTable {
 		this.books=books;
 	}	
 	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+            return true;
+        }
+        
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        return id != null && id.equals(((AuthorTable) obj).id);
+	}
+	
+	@Override
+	public int hashCode() {
+		return 2021;
+	}
+	
+	@Override
+	public String toString() {
+		return "Author{" + "id=" + id + ", last name=" + authorLastName
+                + ", first name=" + authorFirstName + ", about=" + authorAbout + '}';
+	}	
+	
 }

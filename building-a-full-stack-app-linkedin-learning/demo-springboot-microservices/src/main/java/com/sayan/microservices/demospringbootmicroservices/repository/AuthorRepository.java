@@ -9,6 +9,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 
+
+/**
+ * @author S
+ * This repository holds all query methods used for AuthorTable entities
+ */
 @Repository
 @Transactional(readOnly = true)
 public interface AuthorRepository extends CrudRepository<AuthorTable, Long> {

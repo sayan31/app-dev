@@ -10,6 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 
+/**
+ * @author S
+ * This repository holds all query methods used to query BookTable entities
+ */
 @Repository
 @Transactional(readOnly = true)
 public interface BookRepository extends CrudRepository<BookTable, Long> {

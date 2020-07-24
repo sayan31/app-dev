@@ -14,14 +14,11 @@ import com.sayan.microservices.demospringbootmicroservices.repository.BookReposi
 
 /**
  * @author S
- *
+ * Service class to handle business logic related to BookTable entities
  */
 @Service
 public class BookService {
 	
-	/**
-	 * 
-	 */
 	@Autowired
 	private BookRepository bookRepository;
 	
@@ -42,7 +39,7 @@ public class BookService {
 	 * they are removed before saving the unique authors for the book.
 	 * 
 	 * @param book -  instance of BookTable entity that has to be entered into database.
-	 * @return returned - the instance that was saved to the database.
+	 * @return the instance that was saved to the database.
 	 */
 	
 	@Transactional
@@ -60,7 +57,10 @@ public class BookService {
 	}
 	
 	/**
-	 * @return all the books currently present in the database
+	 * Get all books currently present in the DB 
+	 * along with their respective authors.
+	 *  
+	 * @return list of BookTable entities
 	 */
 	@Transactional
 	public List<BookTable> getAllBooks(){

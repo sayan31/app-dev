@@ -37,20 +37,34 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 		createAllBooksAndAuthors(importFile);
 		//displayAllBooks();
 	}
-
+	
 	/*
-	 * private void displayAllBooks() { bookService.getAllBooks(); }
+	 * Uncomment this method when testing
 	 */
-
+	
+	/*
+	 * private void displayAllBooks() {
+	 * System.out.println(bookService.getAllBooks()); }
+	 */
+	 
 	private void createAllBooksAndAuthors(String fileToImport) throws IOException {
 		ObjectMapperHelper.readJsonWithObjectMapper(fileToImport).forEach(importedBook->bookService.addBook(importedBook));
 	}
 	
+	
 	private static class ObjectMapperHelper{
-		public static List<BookTable> readJsonWithObjectMapper(String fileToImport) throws IOException{
-			ObjectMapper objectMapper = new ObjectMapper();
+		
+		private static final ObjectMapper objectMapper = new ObjectMapper();
+		
+		public static List<BookTable> readJsonWithObjectMapper(String fileToImport) throws IOException{			
 			List<BookTable> books=objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY).readValue(new FileInputStream(fileToImport), new TypeReference<List<BookTable>>(){});
 			return books;
-		}
+		}		
+		/*
+		 * public static void writeJsonWithObjectMapper(Object object) { try {
+		 * System.out.println(objectMapper.writerWithDefaultPrettyPrinter().
+		 * writeValueAsString(object)); } catch (JsonProcessingException e) {
+		 * e.printStackTrace(); } }
+		 */
 	}	
 }

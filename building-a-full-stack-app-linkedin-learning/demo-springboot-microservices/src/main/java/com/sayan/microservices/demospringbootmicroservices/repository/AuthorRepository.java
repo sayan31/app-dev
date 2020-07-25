@@ -18,5 +18,12 @@ import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 @Transactional(readOnly = true)
 public interface AuthorRepository extends CrudRepository<AuthorTable, Long> {
 	
+	/**
+	 * Lookup author by last name and first name.
+	 * 
+	 * @param authorLastName
+	 * @param authorFirstName
+	 * @return an Optional containing a list of all found AuthorTable entities
+	 */
 	Optional<List<AuthorTable>> findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(String authorLastName,String authorFirstName);
 }

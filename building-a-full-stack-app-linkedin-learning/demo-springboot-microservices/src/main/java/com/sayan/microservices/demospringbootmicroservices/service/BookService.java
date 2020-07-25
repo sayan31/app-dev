@@ -7,10 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
 import com.sayan.microservices.demospringbootmicroservices.repository.BookRepository;
+import com.sayan.microservices.demospringbootmicroservices.utils.dtotransformers.BookDtoTransformer;
 
 /**
  * @author S
@@ -24,10 +26,14 @@ public class BookService {
 	
 	@Autowired
 	private AuthorRepository authorRepository;
+	
+	@Autowired
+	private BookDtoTransformer bookDtoTransformer;
 		
-	public BookService(BookRepository bookRepository,AuthorRepository authorRepository) {
+	public BookService(BookRepository bookRepository,AuthorRepository authorRepository,BookDtoTransformer bookDtoTransformer) {
 		this.bookRepository = bookRepository;
 		this.authorRepository = authorRepository;
+		this.bookDtoTransformer = bookDtoTransformer;
 	}
 	
 	/**
@@ -66,5 +72,11 @@ public class BookService {
 	public List<BookTable> getAllBooks(){
 		return bookRepository.findAll();
 	}
-
+	
+	@Transactional
+	public List<BookDto> getAllBooksViaDto(){
+		List<Object[]> books = bookRepository.findAllDto();
+		List<BookDto> booksDto = bookDtoTransformer.transform(books);
+		return booksDto;
+	}
 }

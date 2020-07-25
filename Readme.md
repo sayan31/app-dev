@@ -4,3 +4,6 @@
 -----------------------------------
 * [Article about Spring's @Transactional annotation](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)
 * Chapter 6 of **Spring Boot Persistence Best Practices: Optimize Java Persistence Performance in Spring Boot Applications** by Anghel Leonard
+## Spring DTO projection uses ##
+-----------------------------------
+* **Spring Boot Persistence Best Practices: Optimize Java Persistence Performance in Spring Boot Applications** by Anghel Leonard - Chapter 3, item 25

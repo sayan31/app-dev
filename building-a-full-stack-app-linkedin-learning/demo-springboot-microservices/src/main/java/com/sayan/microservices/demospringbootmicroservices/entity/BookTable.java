@@ -1,5 +1,6 @@
 package com.sayan.microservices.demospringbootmicroservices.entity;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -24,10 +25,12 @@ import javax.persistence.ManyToMany;
  * A new AuthorTable instance can only be added through a BookTable instance.
  */
 @Entity
-public class BookTable {
+public class BookTable implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	@Column
@@ -148,7 +151,5 @@ public class BookTable {
 	public String toString() {
 		return "Book{" + "id=" + id + ", name=" + bookName
                 + ", description=" + description + ", isbn=" + isbn + '}';
-	}	
-	
-	
+	}		
 }

@@ -22,9 +22,9 @@ public class BookController {
 		this.bookService = bookService;
 	}
 	
-	@GetMapping(path="")
+	@GetMapping
 	public List<BookDto> showAllBooks(){
-		List<BookDto> listOfBooks = bookService.getAllBooksViaDto();
+		List<BookDto> listOfBooks = bookService.getAllBooks();
 		System.out.println(listOfBooks);
 		return listOfBooks;
 	}

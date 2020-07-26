@@ -26,21 +26,20 @@ public interface BookRepository extends CrudRepository<BookTable, Long> {
 	 */
 	Optional<BookTable> findByBookName(String bookName);
 	
+
+	//@Query(value="SELECT b FROM BookTable b JOIN FETCH b.authors")
 	/**
 	 * Lookup all books along with their authors
 	 * @return a list of {@link BookTable} objects
 	 */
-	@Query(value="SELECT b FROM BookTable b JOIN FETCH b.authors")
-	List<BookTable> findAll();
-	
 	@Query("SELECT b.id AS bookId, b.bookName AS name, b.isbn AS isbn, "
 			+"a.id AS authorId, a.authorLastName AS lastName, a.authorFirstName AS firstName "
 			+"FROM BookTable b INNER JOIN b.authors a")
-	List<Object[]> findAllDto();
+	List<Object[]> findAllBooksAndAuthors();
 	
 	/**
 	 * Adds a {@link BookTable} instance to the database
 	 */
 	@Transactional
-	<S extends BookTable>S save(S bookTable);	
+	<S extends BookTable>S save(S bookTable);		
 }

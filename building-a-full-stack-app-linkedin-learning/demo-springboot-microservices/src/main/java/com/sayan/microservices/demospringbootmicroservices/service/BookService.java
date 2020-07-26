@@ -50,32 +50,36 @@ public class BookService {
 	
 	@Transactional
 	public void addBook(BookTable book) {		
+		AuthorTable removedAuthor=null; 
+		 
 		Optional<BookTable> returnedBook = bookRepository.findByBookName(book.getBookName());
+		
 		for(AuthorTable author:book.getAuthor()) {
 			Optional<List<AuthorTable>> returnedAuthors = authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName());
 			if(returnedAuthors.isPresent()) {
+				removedAuthor = returnedAuthors.get().get(0);
 				book.getAuthor().remove(author);
 			}
 		}
+		
 		if(!returnedBook.isPresent()) {
-			bookRepository.save(book);			
-		}
+			//Case: Book not present in DB, author present/not present in DB
+			bookRepository.save(book).getAuthor().add(removedAuthor);			
+		}else {
+			//Case: Author not present in DB, book present in DB
+			book.getAuthor().forEach(author->returnedBook.get().getAuthor().add(author));
+		}				
 	}
 	
 	/**
 	 * Get all books currently present in the DB 
 	 * along with their respective authors.
 	 *  
-	 * @return list of BookTable entities
+	 * @return list of BookDto objects
 	 */
 	@Transactional
-	public List<BookTable> getAllBooks(){
-		return bookRepository.findAll();
-	}
-	
-	@Transactional
-	public List<BookDto> getAllBooksViaDto(){
-		List<Object[]> books = bookRepository.findAllDto();
+	public List<BookDto> getAllBooks(){
+		List<Object[]> books = bookRepository.findAllBooksAndAuthors();
 		List<BookDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}

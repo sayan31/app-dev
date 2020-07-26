@@ -28,8 +28,8 @@ public class BookDtoTransformer {
 			
 			AuthorDto authorDto =  new AuthorDto();
 			authorDto.setAuthorId(((Number)o[3]).longValue());
-			authorDto.setLastName((String)o[3]);
-			authorDto.setFirstName((String)o[4]);
+			authorDto.setLastName((String)o[4]);
+			authorDto.setFirstName((String)o[5]);
 			
 			bookDto.addAuthor(authorDto);
 			booksDtoMap.putIfAbsent(bookDto.getBookId(), bookDto);

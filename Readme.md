@@ -11,6 +11,7 @@
 	* DTO relies on classes with constructor and getters/setters, while Spring projections rely on interfaces and automatically generated proxies.
 	* When an entity has a significant number of attributes, we potentially need a bunch of read-only queries to fetch different subsets of attributes. It will be more practical to **define a single Spring projection that works for all read-only queries** executed against the entity.
 		* To the above end, we define a Spring projection(class-based DTO) that contains getters to satisfy the heaviest query.	
+		* However, using a DTO pair for each UI request/response is good(?) practice.
 
 ## Database Joins ##
 -----------------------------------

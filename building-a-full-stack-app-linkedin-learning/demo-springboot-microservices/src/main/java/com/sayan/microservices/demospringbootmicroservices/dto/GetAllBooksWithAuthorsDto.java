@@ -3,18 +3,19 @@ package com.sayan.microservices.demospringbootmicroservices.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookDto {
+import org.springframework.hateoas.RepresentationModel;
+
+public class GetAllBooksWithAuthorsDto extends RepresentationModel<GetAllBooksWithAuthorsDto>{
 	
 	private Long bookId;
 	private String name;
-	private String description;
 	private Long isbn;
 	
-	private List<AuthorDto> authors= new ArrayList<>();
+	private List<GetAuthorWithLastNameAndFirstNameDto> authors= new ArrayList<>();
 
-	public BookDto() {}
+	public GetAllBooksWithAuthorsDto() {}
 
-	public BookDto(Long bookId, String name, Long isbn) {
+	public GetAllBooksWithAuthorsDto(Long bookId, String name, Long isbn) {
 		this.bookId = bookId;
 		this.name = name;
 		this.isbn = isbn;
@@ -36,14 +37,6 @@ public class BookDto {
 		this.name = bookName;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public Long getIsbn() {
 		return isbn;
 	}
@@ -52,20 +45,20 @@ public class BookDto {
 		this.isbn = isbn;
 	}
 
-	public List<AuthorDto> getAuthors() {
+	public List<GetAuthorWithLastNameAndFirstNameDto> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(List<AuthorDto> authors) {
+	public void setAuthors(List<GetAuthorWithLastNameAndFirstNameDto> authors) {
 		this.authors = authors;
 	}
 	
-	public void addAuthor(AuthorDto author) {
+	public void addAuthor(GetAuthorWithLastNameAndFirstNameDto author) {
 		authors.add(author);
 	}
 
 	@Override
 	public String toString() {
-		return "BookDto{" + "id="+bookId + ", name=" + name + ", description=" + description +"isbn=" + isbn+'}';
+		return "GetAllBooksWithAuthorsDto{" + "id="+bookId + ", name=" + name + "isbn=" + isbn+'}';
 	}
 }

@@ -1,19 +1,15 @@
 package com.sayan.microservices.demospringbootmicroservices.dto;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class AuthorDto {
+public class GetAuthorWithLastNameAndFirstNameDto {
 	private Long authorId;
 	private String lastName;
 	private String firstName;
-	private String about;
 	
-	private List<BookDto> books= new ArrayList<>();
+	//private List<GetAllBooksWithAuthorsDto> books= new ArrayList<>();
 
-	public AuthorDto() {}
+	public GetAuthorWithLastNameAndFirstNameDto() {}
 
-	public AuthorDto(Long authorId, String lastName, String firstName) {
+	public GetAuthorWithLastNameAndFirstNameDto(Long authorId, String lastName, String firstName) {
 		this.authorId = authorId;
 		this.lastName = lastName;
 		this.firstName = firstName;
@@ -43,28 +39,17 @@ public class AuthorDto {
 		this.firstName = firstName;
 	}
 
-	public String getAbout() {
-		return about;
-	}
-
-	public void setAbout(String about) {
-		this.about = about;
-	}
-
-	public List<BookDto> getBooks() {
-		return books;
-	}
-
-	public void setBooks(List<BookDto> books) {
-		this.books = books;
-	}
-	
-	public void addBook(BookDto book) {
-		books.add(book);
-	}
+	/*
+	 * public List<GetAllBooksWithAuthorsDto> getBooks() { return books; }
+	 * 
+	 * public void setBooks(List<GetAllBooksWithAuthorsDto> books) { this.books =
+	 * books; }
+	 * 
+	 * public void addBook(GetAllBooksWithAuthorsDto book) { books.add(book); }
+	 */
 
 	@Override
 	public String toString() {
-		return "AuthorDto{" + "id="+authorId + ", last name=" + lastName + ", first name=" + firstName +"about=" + about+'}';
+		return "AuthorWithLastNameAndFirstNameDto{" + ", last name=" + lastName + ", first name=" + '}';
 	}
 }

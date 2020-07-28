@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
+import com.sayan.microservices.demospringbootmicroservices.dto.GetAllBooksWithAuthorsDto;
 import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
@@ -78,9 +78,9 @@ public class BookService {
 	 * @return list of BookDto objects
 	 */
 	@Transactional
-	public List<BookDto> getAllBooks(){
+	public List<GetAllBooksWithAuthorsDto> getAllBooks(){
 		List<Object[]> books = bookRepository.findAllBooksAndAuthors();
-		List<BookDto> booksDto = bookDtoTransformer.transform(books);
+		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}
 }

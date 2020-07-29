@@ -1,7 +1,5 @@
 package com.sayan.microservices.demospringbootmicroservices.endpoints;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,8 +22,9 @@ public class AuthorController {
 	}
 		
 	@GetMapping("/{id}")
-	public List<GetAuthorWithBooksDto> fetchAuthorWithBooks(@PathVariable("id") Long authorId){
-		
+	public GetAuthorWithBooksDto fetchAuthorWithBooks(@PathVariable("id") Long authorId){
+		GetAuthorWithBooksDto authorWithBooks = authorService.findAuthorWithBooksById(authorId);
+		return authorWithBooks;
 	}
 	
 }

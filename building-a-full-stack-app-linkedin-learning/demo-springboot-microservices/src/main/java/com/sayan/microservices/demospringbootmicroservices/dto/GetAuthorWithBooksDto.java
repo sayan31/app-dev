@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GetAuthorWithBooksDto {
-	private Long authorId;	
+	private Long authorId;
+	private String lastName;
+	private String firstName;
 	private List<GetAllBooksWithAuthorsDto> books = new ArrayList<>();
 	
 	public GetAuthorWithBooksDto() {}
@@ -29,8 +31,24 @@ public class GetAuthorWithBooksDto {
 		books.add(book);
 	}
 	
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
 	@Override
 	public String toString() {
-		return "GetAuthorWithBooksDto{" + "id="+authorId +'}';
+		return "GetAuthorWithBooksDto{" + "lastName="+lastName+"firstName"+firstName+'}';
 	}
 }

@@ -1,5 +1,8 @@
 package com.sayan.microservices.demospringbootmicroservices.endpoints;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ public class BookController {
 	
 	@Autowired
 	private BookService bookService;
+	/*
+	 * @Autowired private BookAssembler bookAssembler;
+	 */
 
 	public BookController(BookService bookService) {
 		this.bookService = bookService;
@@ -25,6 +31,12 @@ public class BookController {
 	@GetMapping
 	public List<GetAllBooksWithAuthorsDto> showAllBooks(){
 		List<GetAllBooksWithAuthorsDto> listOfBooks = bookService.getAllBooks();
+		for(final GetAllBooksWithAuthorsDto bookWithAuthor: listOfBooks) {
+			int index=0;
+			bookWithAuthor.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookWithAuthor.getAuthors().get(index).getAuthorId())).withRel("authors"));
+			index++;
+		}
+		//Link link = linkTo(methodOn(BookController.class).showAllBooks()).withSelfRel();
 		return listOfBooks;
 	}
 }

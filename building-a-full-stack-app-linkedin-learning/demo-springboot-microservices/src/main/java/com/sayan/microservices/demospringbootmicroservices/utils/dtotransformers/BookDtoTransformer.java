@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Component;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import com.sayan.microservices.demospringbootmicroservices.dto.GetAuthorWithLastNameAndFirstNameDto;
 import com.sayan.microservices.demospringbootmicroservices.dto.GetAllBooksWithAuthorsDto;
+import com.sayan.microservices.demospringbootmicroservices.endpoints.AuthorController;
 
 @Component
 public class BookDtoTransformer {
@@ -26,12 +28,15 @@ public class BookDtoTransformer {
 				bookDto.setIsbn(((Number)o[2]).longValue());
 			}
 			
-			GetAuthorWithLastNameAndFirstNameDto authorDto =  new GetAuthorWithLastNameAndFirstNameDto();
+			/*GetAuthorWithBooksDto authorDto =  new GetAuthorWithBooksDto();
 			authorDto.setAuthorId(((Number)o[3]).longValue());
 			authorDto.setLastName((String)o[4]);
 			authorDto.setFirstName((String)o[5]);
 			
-			bookDto.addAuthor(authorDto);
+			bookDto.addAuthor(authorDto);*/
+			
+			bookDto.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookId)).withRel("authors"));
+			
 			booksDtoMap.putIfAbsent(bookDto.getBookId(), bookDto);
 		} 		
 		return new ArrayList<>(booksDtoMap.values());

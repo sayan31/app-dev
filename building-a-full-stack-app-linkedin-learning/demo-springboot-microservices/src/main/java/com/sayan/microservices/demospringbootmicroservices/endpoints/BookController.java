@@ -6,6 +6,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,14 +31,14 @@ public class BookController {
 	}
 	
 	@GetMapping
-	public List<GetAllBooksWithAuthorsDto> showAllBooks(){
+	public CollectionModel<GetAllBooksWithAuthorsDto> showAllBooks(){
 		List<GetAllBooksWithAuthorsDto> listOfBooks = bookService.getAllBooks();
-		for(final GetAllBooksWithAuthorsDto bookWithAuthor: listOfBooks) {
+		/*for(final GetAllBooksWithAuthorsDto bookWithAuthor: listOfBooks) {
 			int index=0;
 			bookWithAuthor.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookWithAuthor.getAuthors().get(index).getAuthorId())).withRel("authors"));
 			index++;
-		}
-		//Link link = linkTo(methodOn(BookController.class).showAllBooks()).withSelfRel();
-		return listOfBooks;
+		}*/
+		Link link = linkTo(methodOn(BookController.class).showAllBooks()).withSelfRel();
+		return CollectionModel.of(listOfBooks,link);
 	}
 }

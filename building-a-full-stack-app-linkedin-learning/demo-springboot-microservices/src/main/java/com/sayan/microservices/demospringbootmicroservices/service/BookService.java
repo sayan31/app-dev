@@ -79,7 +79,7 @@ public class BookService {
 	 */
 	@Transactional
 	public List<GetAllBooksWithAuthorsDto> getAllBooks(){
-		List<Object[]> books = bookRepository.findAllBooksAndAuthors();
+		List<Object[]> books = bookRepository.findAllBooks();
 		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}

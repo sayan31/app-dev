@@ -26,7 +26,6 @@ public interface BookRepository extends CrudRepository<BookTable, Long> {
 	 */
 	Optional<BookTable> findByBookName(String bookName);
 	
-
 	//@Query(value="SELECT b FROM BookTable b JOIN FETCH b.authors")
 	/**
 	 * Lookup all books
@@ -36,8 +35,14 @@ public interface BookRepository extends CrudRepository<BookTable, Long> {
 			+"FROM BookTable b")
 	List<Object[]> findAllBooks();
 	
-	@Query("SELECT b FROM BookTable b")
-	List<Object[]> findByBookId(Long bookId);
+	/**
+	 * Find a Book by its Id attribute
+	 * 
+	 * @param bookId
+	 * @return the single {@link BookTable} object
+	 */
+	@Query("SELECT b FROM BookTable b WHERE b.id = ?1")
+	Optional<BookTable> findByBookId(Long bookId);
 	
 	/**
 	 * Adds a {@link BookTable} instance to the database

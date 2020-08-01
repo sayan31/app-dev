@@ -29,8 +29,14 @@ public class AuthorService {
 		this.bookRepository = bookRepository;
 	}
 		
+	/**
+	 * Get authors for a particular book
+	 * 
+	 * @param bookId
+	 * @return list of {@link GetAuthorWithBooksDto} objects
+	 */
 	public List<GetAuthorWithBooksDto> findAuthorsByBookId(Long bookId){
-		Set<AuthorTable> authors = bookRepository.findByBookId(bookId).get().getAuthor();
+		Set<AuthorTable> authors = bookRepository.findByBookId(bookId);
 		List<GetAuthorWithBooksDto> authorDto=authorDtoTransformer.transform(authors);
 		return authorDto;
 	}

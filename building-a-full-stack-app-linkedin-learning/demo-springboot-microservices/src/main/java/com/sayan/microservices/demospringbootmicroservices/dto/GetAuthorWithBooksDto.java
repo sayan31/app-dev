@@ -1,13 +1,12 @@
 package com.sayan.microservices.demospringbootmicroservices.dto;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.hateoas.RepresentationModel;
 
-public class GetAuthorWithBooksDto {
+public class GetAuthorWithBooksDto extends RepresentationModel<GetAuthorWithBooksDto>{
 	private Long authorId;
 	private String lastName;
 	private String firstName;
-	private List<GetAllBooksWithAuthorsDto> books = new ArrayList<>();
+	//private List<GetAllBooksWithAuthorsDto> books = new ArrayList<>();
 	
 	public GetAuthorWithBooksDto() {}
 
@@ -19,7 +18,7 @@ public class GetAuthorWithBooksDto {
 		this.authorId = authorId;
 	}
 
-	public List<GetAllBooksWithAuthorsDto> getBooks() {
+	/*public List<GetAllBooksWithAuthorsDto> getBooks() {
 		return books;
 	}
 
@@ -29,7 +28,7 @@ public class GetAuthorWithBooksDto {
 	
 	public void addBook(GetAllBooksWithAuthorsDto book) {
 		books.add(book);
-	}
+	}*/
 	
 	public String getLastName() {
 		return lastName;

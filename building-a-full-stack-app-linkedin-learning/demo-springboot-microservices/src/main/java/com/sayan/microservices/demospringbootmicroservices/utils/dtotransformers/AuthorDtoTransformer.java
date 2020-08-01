@@ -8,7 +8,12 @@ import java.util.Set;
 
 import org.springframework.stereotype.Component;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
+
 import com.sayan.microservices.demospringbootmicroservices.dto.GetAuthorWithBooksDto;
+import com.sayan.microservices.demospringbootmicroservices.endpoints.BookController;
 import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 
 @Component
@@ -27,6 +32,8 @@ public class AuthorDtoTransformer {
 				authorDto.setLastName(author.getAuthorLastName());
 				authorDto.setFirstName(author.getAuthorFirstName());
 			}
+			
+			authorDto.add(linkTo(methodOn(BookController.class).showBook(authorId)).withRel("books"));
 			
 			authorsDtoMap.putIfAbsent(authorDto.getAuthorId(), authorDto);
 		}		

@@ -2,12 +2,14 @@ package com.sayan.microservices.demospringbootmicroservices.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 
 /**
@@ -26,9 +28,9 @@ public interface BookRepository extends CrudRepository<BookTable, Long> {
 	 */
 	Optional<BookTable> findByBookName(String bookName);
 	
-	//@Query(value="SELECT b FROM BookTable b JOIN FETCH b.authors")
 	/**
 	 * Lookup all books
+	 * 
 	 * @return a list of {@link BookTable} objects
 	 */
 	@Query("SELECT b.id AS bookId, b.bookName AS name, b.isbn AS isbn "			
@@ -36,13 +38,13 @@ public interface BookRepository extends CrudRepository<BookTable, Long> {
 	List<Object[]> findAllBooks();
 	
 	/**
-	 * Find a Book by its Id attribute
+	 * Get the set of authors for a particular book
 	 * 
 	 * @param bookId
-	 * @return the single {@link BookTable} object
+	 * @return {@link Set} of {@link AuthorTable} object
 	 */
-	@Query("SELECT b FROM BookTable b WHERE b.id = ?1")
-	Optional<BookTable> findByBookId(Long bookId);
+	@Query("SELECT b.authors FROM BookTable b WHERE b.id = ?1")
+	Set<AuthorTable> findByBookId(Long bookId);
 	
 	/**
 	 * Adds a {@link BookTable} instance to the database

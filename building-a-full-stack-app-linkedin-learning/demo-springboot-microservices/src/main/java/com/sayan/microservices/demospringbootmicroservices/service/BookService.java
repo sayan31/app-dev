@@ -2,6 +2,7 @@ package com.sayan.microservices.demospringbootmicroservices.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import com.sayan.microservices.demospringbootmicroservices.utils.dtotransformers
  * Service class to handle business logic related to BookTable entities
  */
 @Service
+@Transactional(readOnly = true)
 public class BookService {
 	
 	@Autowired
@@ -72,14 +74,24 @@ public class BookService {
 	}
 	
 	/**
-	 * Get all books currently present in the DB 
-	 * along with their respective authors.
+	 * Get all books currently present in the DB
 	 *  
-	 * @return list of BookDto objects
+	 * @return list of {@link GetAllBooksWithAuthorsDto} objects
 	 */
-	@Transactional
 	public List<GetAllBooksWithAuthorsDto> getAllBooks(){
 		List<Object[]> books = bookRepository.findAllBooks();
+		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
+		return booksDto;
+	}
+	
+	/**
+	 * Get all books written by a particular author
+	 * 
+	 * @param authorId
+	 * @return list of {@link GetAllBooksWithAuthorsDto} objects
+	 */
+	public List<GetAllBooksWithAuthorsDto> getBooksByAuthor(Long authorId){
+		Set<BookTable> books = authorRepository.findByAuthorId(authorId);
 		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}

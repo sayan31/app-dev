@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,9 +23,6 @@ public class BookController {
 	
 	@Autowired
 	private BookService bookService;
-	/*
-	 * @Autowired private BookAssembler bookAssembler;
-	 */
 
 	public BookController(BookService bookService) {
 		this.bookService = bookService;
@@ -33,12 +31,14 @@ public class BookController {
 	@GetMapping
 	public CollectionModel<GetAllBooksWithAuthorsDto> showAllBooks(){
 		List<GetAllBooksWithAuthorsDto> listOfBooks = bookService.getAllBooks();
-		/*for(final GetAllBooksWithAuthorsDto bookWithAuthor: listOfBooks) {
-			int index=0;
-			bookWithAuthor.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookWithAuthor.getAuthors().get(index).getAuthorId())).withRel("authors"));
-			index++;
-		}*/
 		Link link = linkTo(methodOn(BookController.class).showAllBooks()).withSelfRel();
 		return CollectionModel.of(listOfBooks,link);
+	}
+	
+	@GetMapping("/{authorId}")
+	public CollectionModel<GetAllBooksWithAuthorsDto> showBook(@PathVariable("authorId") Long authorId){
+		List<GetAllBooksWithAuthorsDto> listOfBooksForAuthor = bookService.getBooksByAuthor(authorId);
+		Link link = linkTo(methodOn(BookController.class).showBook(authorId)).withSelfRel();
+		return CollectionModel.of(listOfBooksForAuthor,link);
 	}
 }

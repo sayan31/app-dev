@@ -1,5 +1,6 @@
 package com.sayan.microservices.demospringbootmicroservices.service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -94,5 +95,18 @@ public class BookService {
 		Set<BookTable> books = authorRepository.findByAuthorId(authorId);
 		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
+	}
+	
+	@Transactional
+	public GetAllBooksWithAuthorsDto updateBookDescriptionById(Long bookId, String description) {
+		BookTable book = bookRepository.findById(bookId).get();
+		book.setDescription(description);
+		BookTable updatedBook = bookRepository.save(book);
+		
+		Set<BookTable> books = new HashSet<>();
+		books.add(updatedBook);
+		
+		List<GetAllBooksWithAuthorsDto> bookDto = bookDtoTransformer.transform(books);
+		return bookDto.get(0);
 	}
 }

@@ -7,6 +7,7 @@ public class GetAllBooksWithAuthorsDto extends RepresentationModel<GetAllBooksWi
 	private Long bookId;
 	private String name;
 	private Long isbn;
+	private String description;
 	
 	//private List<GetAuthorWithBooksDto> authors= new ArrayList<>();
 
@@ -17,6 +18,13 @@ public class GetAllBooksWithAuthorsDto extends RepresentationModel<GetAllBooksWi
 		this.name = name;
 		this.isbn = isbn;
 	}
+	
+	public GetAllBooksWithAuthorsDto(Long bookId, String name, Long isbn, String description) {
+		this.bookId = bookId;
+		this.name = name;
+		this.isbn = isbn;
+		this.description = description;
+	}
 
 	public Long getBookId() {
 		return bookId;
@@ -25,6 +33,7 @@ public class GetAllBooksWithAuthorsDto extends RepresentationModel<GetAllBooksWi
 	public void setBookId(Long bookId) {
 		this.bookId = bookId;
 	}
+
 
 	public String getName() {
 		return name;
@@ -40,6 +49,13 @@ public class GetAllBooksWithAuthorsDto extends RepresentationModel<GetAllBooksWi
 
 	public void setIsbn(Long isbn) {
 		this.isbn = isbn;
+	}
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/*public List<GetAuthorWithBooksDto> getAuthors() {

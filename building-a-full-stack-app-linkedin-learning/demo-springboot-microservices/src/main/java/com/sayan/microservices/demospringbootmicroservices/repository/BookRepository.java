@@ -33,7 +33,7 @@ public interface BookRepository extends CrudRepository<BookTable, Long> {
 	 * 
 	 * @return a list of {@link BookTable} objects
 	 */
-	@Query("SELECT b.id AS bookId, b.bookName AS name, b.isbn AS isbn "			
+	@Query("SELECT b.id AS bookId, b.bookName AS name, b.isbn AS isbn, b.description AS description "			
 			+"FROM BookTable b")
 	List<Object[]> findAllBooks();
 	

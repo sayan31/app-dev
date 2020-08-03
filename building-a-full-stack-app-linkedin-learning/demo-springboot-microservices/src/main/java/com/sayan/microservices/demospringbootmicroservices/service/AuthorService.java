@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sayan.microservices.demospringbootmicroservices.dto.GetAuthorWithBooksDto;
+import com.sayan.microservices.demospringbootmicroservices.dto.AuthorDto;
 import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
 import com.sayan.microservices.demospringbootmicroservices.repository.BookRepository;
@@ -33,11 +33,11 @@ public class AuthorService {
 	 * Get authors for a particular book
 	 * 
 	 * @param bookId
-	 * @return list of {@link GetAuthorWithBooksDto} objects
+	 * @return list of {@link AuthorDto} objects
 	 */
-	public List<GetAuthorWithBooksDto> findAuthorsByBookId(Long bookId){
+	public List<AuthorDto> findAuthorsByBookId(Long bookId){
 		Set<AuthorTable> authors = bookRepository.findByBookId(bookId);
-		List<GetAuthorWithBooksDto> authorDto=authorDtoTransformer.transform(authors);
+		List<AuthorDto> authorDto=authorDtoTransformer.transform(authors);
 		return authorDto;
 	}
 }	

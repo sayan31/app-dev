@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sayan.microservices.demospringbootmicroservices.dto.GetAllBooksWithAuthorsDto;
-import com.sayan.microservices.demospringbootmicroservices.dto.UpdateBookDescriptionDto;
+import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
 import com.sayan.microservices.demospringbootmicroservices.utils.BookApplicationConstants;
 
@@ -35,21 +34,21 @@ public class BookController {
 	
 	@GetMapping
 	public ResponseEntity<?> showAllBooks(){
-		List<GetAllBooksWithAuthorsDto> listOfBooks = bookService.getAllBooks();
+		List<BookDto> listOfBooks = bookService.getAllBooks();
 		Link link = linkTo(methodOn(BookController.class).showAllBooks()).withSelfRel();
 		return ResponseEntity.ok(CollectionModel.of(listOfBooks,link));
 	}
 	
 	@GetMapping("/{authorId}")
 	public ResponseEntity<?> showBook(@PathVariable("authorId") Long authorId){
-		List<GetAllBooksWithAuthorsDto> listOfBooksForAuthor = bookService.getBooksByAuthor(authorId);
+		List<BookDto> listOfBooksForAuthor = bookService.getBooksByAuthor(authorId);
 		Link link = linkTo(methodOn(BookController.class).showBook(authorId)).withSelfRel();
 		return ResponseEntity.ok(CollectionModel.of(listOfBooksForAuthor,link));
 	}
 	
 	@PatchMapping("/{bookId}")
-	public ResponseEntity<?> updateBookDescription(@PathVariable("bookId") Long bookId, @RequestBody UpdateBookDescriptionDto updateBookDescriptionDto) {
-		GetAllBooksWithAuthorsDto book =null;
+	public ResponseEntity<?> updateBookDescription(@PathVariable("bookId") Long bookId, @RequestBody BookDto updateBookDescriptionDto) {
+		BookDto book =null;
 		if (updateBookDescriptionDto.getDescription()!=null) {
 			book = bookService.updateBookDescriptionById(bookId,updateBookDescriptionDto.getDescription());
 		}

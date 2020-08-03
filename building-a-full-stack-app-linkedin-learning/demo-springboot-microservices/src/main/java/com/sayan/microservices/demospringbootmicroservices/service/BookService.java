@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sayan.microservices.demospringbootmicroservices.dto.GetAllBooksWithAuthorsDto;
+import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
 import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
@@ -77,11 +77,11 @@ public class BookService {
 	/**
 	 * Get all books currently present in the DB
 	 *  
-	 * @return list of {@link GetAllBooksWithAuthorsDto} objects
+	 * @return list of {@link BookDto} objects
 	 */
-	public List<GetAllBooksWithAuthorsDto> getAllBooks(){
+	public List<BookDto> getAllBooks(){
 		List<Object[]> books = bookRepository.findAllBooks();
-		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
+		List<BookDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}
 	
@@ -89,16 +89,16 @@ public class BookService {
 	 * Get all books written by a particular author
 	 * 
 	 * @param authorId
-	 * @return list of {@link GetAllBooksWithAuthorsDto} objects
+	 * @return list of {@link BookDto} objects
 	 */
-	public List<GetAllBooksWithAuthorsDto> getBooksByAuthor(Long authorId){
+	public List<BookDto> getBooksByAuthor(Long authorId){
 		Set<BookTable> books = authorRepository.findByAuthorId(authorId);
-		List<GetAllBooksWithAuthorsDto> booksDto = bookDtoTransformer.transform(books);
+		List<BookDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}
 	
 	@Transactional
-	public GetAllBooksWithAuthorsDto updateBookDescriptionById(Long bookId, String description) {
+	public BookDto updateBookDescriptionById(Long bookId, String description) {
 		BookTable book = bookRepository.findById(bookId).get();
 		book.setDescription(description);
 		BookTable updatedBook = bookRepository.save(book);
@@ -106,7 +106,7 @@ public class BookService {
 		Set<BookTable> books = new HashSet<>();
 		books.add(updatedBook);
 		
-		List<GetAllBooksWithAuthorsDto> bookDto = bookDtoTransformer.transform(books);
+		List<BookDto> bookDto = bookDtoTransformer.transform(books);
 		return bookDto.get(0);
 	}
 }

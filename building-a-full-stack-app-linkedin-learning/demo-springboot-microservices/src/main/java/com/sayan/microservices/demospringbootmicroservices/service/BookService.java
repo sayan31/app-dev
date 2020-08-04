@@ -2,6 +2,7 @@ package com.sayan.microservices.demospringbootmicroservices.service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -97,16 +98,33 @@ public class BookService {
 		return booksDto;
 	}
 	
+	/**
+	 * Update one or more attributes of a book
+	 * 
+	 * @param bookId - book ID of the book to update
+	 * @param updateMap - a {@link Map} of fields to be updated and their respective values 
+	 * 
+	 * @return a single {@link BookDto} object
+	 */
 	@Transactional
-	public BookDto updateBookDescriptionById(Long bookId, String description) {
+	public BookDto updateBookById(Long bookId, Map<String,Object> updateMap) {
 		BookTable book = bookRepository.findById(bookId).get();
-		book.setDescription(description);
+		for(Map.Entry<String, Object> entry: updateMap.entrySet()) {
+			switch(entry.getKey()) {
+				case "name":
+					book.setBookName(entry.getValue().toString());
+				case "isbn":
+					book.setIsbn((Long)entry.getValue());
+				case "description":
+					book.setDescription(entry.getValue().toString());
+			}
+		}
 		BookTable updatedBook = bookRepository.save(book);
 		
 		Set<BookTable> books = new HashSet<>();
 		books.add(updatedBook);
-		
 		List<BookDto> bookDto = bookDtoTransformer.transform(books);
+		
 		return bookDto.get(0);
 	}
 }

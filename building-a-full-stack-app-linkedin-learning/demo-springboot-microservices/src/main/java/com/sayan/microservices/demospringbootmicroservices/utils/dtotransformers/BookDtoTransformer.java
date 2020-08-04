@@ -33,7 +33,7 @@ public class BookDtoTransformer {
 				bookDto.setDescription((String) o[3]);
 			}			
 			bookDto.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookId)).withRel("authors"));
-			bookDto.add(linkTo(methodOn(BookController.class).updateBookDescription(bookId,bookDto)).withRel("updateDescription"));
+			bookDto.add(linkTo(methodOn(BookController.class).updateBook(bookId,bookDto)).withRel("update"));
 			
 			booksDtoMap.putIfAbsent(bookDto.getBookId(), bookDto);
 		}
@@ -51,12 +51,13 @@ public class BookDtoTransformer {
 				bookDto.setBookId(bookId);
 				bookDto.setName(book.getBookName());
 				bookDto.setIsbn(book.getIsbn());
-				if(book.getDescription()!=null) {
-					bookDto.setDescription(book.getDescription());
-				}
+				//if(book.getDescription()!=null) {
+				bookDto.setDescription(book.getDescription());
+				//}
 			}
 			bookDto.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookId)).withRel("authors"));
-
+			bookDto.add(linkTo(methodOn(BookController.class).updateBook(bookId,bookDto)).withRel("update"));
+			
 			booksDtoMap.putIfAbsent(bookDto.getBookId(), bookDto);
 		}
 		return new ArrayList<>(booksDtoMap.values());

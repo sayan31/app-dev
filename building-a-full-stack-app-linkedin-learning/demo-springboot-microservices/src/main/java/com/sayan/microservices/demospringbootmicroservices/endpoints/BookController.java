@@ -45,14 +45,24 @@ public class BookController {
 		return ResponseEntity.ok(CollectionModel.of(listOfBooks,link));
 	}
 	
-	@GetMapping("/{authorId}")
+	@GetMapping("/author/{authorId}")
 	public ResponseEntity<?> showBook(@PathVariable("authorId") Long authorId) throws BooksNotFoundException{
 		List<BookDto> listOfBooksForAuthor = bookService.getBooksByAuthor(authorId);
 		if(listOfBooksForAuthor.isEmpty()) {
-			throw new BooksNotFoundException("Books Not Found");
+			throw new BooksNotFoundException("Books Not Found for author with id: "+authorId);
 		}
 		Link link = linkTo(methodOn(BookController.class).showBook(authorId)).withSelfRel();
 		return ResponseEntity.ok(CollectionModel.of(listOfBooksForAuthor,link));
+	}
+	
+	@GetMapping("/{bookId}")
+	public ResponseEntity<?> getBook(@PathVariable("bookId") Long bookId) throws BooksNotFoundException{
+		BookDto book = bookService.getBookById(bookId);
+		if(null==book) {
+			throw new BooksNotFoundException("No book found with id: "+bookId);
+		}
+		Link link = linkTo(methodOn(BookController.class).getBook(bookId)).withSelfRel();
+		return ResponseEntity.ok(EntityModel.of(book,link));
 	}
 	
 	@PatchMapping("/{bookId}")

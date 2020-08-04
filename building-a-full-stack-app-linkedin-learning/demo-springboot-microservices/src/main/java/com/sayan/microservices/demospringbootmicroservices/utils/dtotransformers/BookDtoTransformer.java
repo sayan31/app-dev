@@ -34,6 +34,7 @@ public class BookDtoTransformer {
 			}			
 			bookDto.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookId)).withRel("authors"));
 			bookDto.add(linkTo(methodOn(BookController.class).updateBook(bookId,bookDto)).withRel("update"));
+			bookDto.add(linkTo(methodOn(BookController.class).getBook(bookId)).withRel("self"));
 			
 			booksDtoMap.putIfAbsent(bookDto.getBookId(), bookDto);
 		}

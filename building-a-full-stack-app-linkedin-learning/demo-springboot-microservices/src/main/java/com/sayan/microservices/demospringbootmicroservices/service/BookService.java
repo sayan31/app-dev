@@ -98,6 +98,14 @@ public class BookService {
 		return booksDto;
 	}
 	
+	public BookDto getBookById(Long bookId) {
+		BookTable book = bookRepository.findById(bookId).get();
+		Set<BookTable> books = new HashSet<>();
+		books.add(book);
+		List<BookDto> bookDto = bookDtoTransformer.transform(books);
+		return bookDto.get(0);
+	}
+	
 	/**
 	 * Update one or more attributes of a book
 	 * 

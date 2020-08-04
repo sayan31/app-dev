@@ -17,6 +17,13 @@ import com.sayan.microservices.demospringbootmicroservices.exceptions.BooksNotFo
 @RestController
 public class CustomizedResponseEntityExceptionHandlerController extends ResponseEntityExceptionHandler {
 	
+	@ExceptionHandler(Exception.class)
+	public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest webRequest) {
+		ExceptionDto exception = new ExceptionDto(new Date(), ex.getMessage(),
+				webRequest.getDescription(false));
+		return new ResponseEntity<>(exception, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 	@ExceptionHandler(BooksNotFoundException.class)
 	public final ResponseEntity<Object> handleBooksNotFoundException(BooksNotFoundException ex, WebRequest webRequest){
 		ExceptionDto exception = new ExceptionDto(new Date(),ex.getMessage(),webRequest.getDescription(false));

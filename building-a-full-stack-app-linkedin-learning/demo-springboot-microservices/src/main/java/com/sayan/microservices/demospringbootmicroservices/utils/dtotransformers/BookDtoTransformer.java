@@ -52,9 +52,7 @@ public class BookDtoTransformer {
 				bookDto.setBookId(bookId);
 				bookDto.setName(book.getBookName());
 				bookDto.setIsbn(book.getIsbn());
-				//if(book.getDescription()!=null) {
 				bookDto.setDescription(book.getDescription());
-				//}
 			}
 			bookDto.add(linkTo(methodOn(AuthorController.class).fetchAuthorWithBooks(bookId)).withRel("authors"));
 			bookDto.add(linkTo(methodOn(BookController.class).updateBook(bookId,bookDto)).withRel("update"));

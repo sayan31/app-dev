@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -34,8 +33,16 @@ public class AuthorTable implements Serializable{
 	
 	@Column
 	private String authorAbout;
+	
 
-	@ManyToMany(mappedBy="authors",fetch=FetchType.LAZY)
+	/**
+	 * It is more useful to use a {@link Set} to model bi-directional
+	 * Many-to-many relations because it results in more efficient
+	 * database interactions for many use-cases, for example, while
+	 * removing entities.
+	 * This results in cleaner and more efficient underlying SQL queries
+	 */
+	@ManyToMany(mappedBy="authors")
 	private Set<BookTable> books = new HashSet<>();
 
 	public Long getId() {

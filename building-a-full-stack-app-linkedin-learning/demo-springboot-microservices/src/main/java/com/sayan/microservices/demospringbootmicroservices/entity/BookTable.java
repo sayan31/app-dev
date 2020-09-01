@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -42,7 +41,7 @@ public class BookTable implements Serializable{
 	@Column
 	private Long isbn;
 	
-	@ManyToMany(fetch=FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.MERGE})
+	@ManyToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	@JoinTable(name="BookTable_AuthorTable",joinColumns={@JoinColumn(name="book_id",referencedColumnName="id")},inverseJoinColumns = {@JoinColumn(name = "author_id",referencedColumnName ="id")})
 	private Set<AuthorTable> authors = new HashSet<>();
 	

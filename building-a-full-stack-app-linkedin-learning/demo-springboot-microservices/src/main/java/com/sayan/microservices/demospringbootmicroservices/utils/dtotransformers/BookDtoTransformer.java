@@ -28,7 +28,7 @@ public class BookDtoTransformer {
 			if (null == bookDto) {
 				bookDto = new BookDto();
 				bookDto.setBookId(((Number) o[0]).longValue());
-				bookDto.setName((String) o[1]);
+				bookDto.setBookName((String) o[1]);
 				bookDto.setIsbn(((Number) o[2]).longValue());
 				bookDto.setDescription((String) o[3]);
 			}			
@@ -50,7 +50,7 @@ public class BookDtoTransformer {
 			if (null == bookDto) {
 				bookDto = new BookDto();
 				bookDto.setBookId(bookId);
-				bookDto.setName(book.getBookName());
+				bookDto.setBookName(book.getBookName());
 				bookDto.setIsbn(book.getIsbn());
 				bookDto.setDescription(book.getDescription());
 			}

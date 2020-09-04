@@ -75,8 +75,8 @@ public class BookController {
 		if (updateBookDto.getIsbn()!= null) {
 			itemsToUpdate.put("isbn",updateBookDto.getIsbn());
 		}
-		if (updateBookDto.getName()!= null) {
-			itemsToUpdate.put("name",updateBookDto.getName());
+		if (updateBookDto.getBookName()!= null) {
+			itemsToUpdate.put("name",updateBookDto.getBookName());
 		}
 		
 		book = bookService.updateBookById(bookId, itemsToUpdate);

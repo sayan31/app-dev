@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 public class BookDto extends RepresentationModel<BookDto>{
 	
 	private Long bookId;
-	private String name;
+	private String bookName;
 	private Long isbn;
 	private String description;
 	
@@ -17,15 +17,15 @@ public class BookDto extends RepresentationModel<BookDto>{
 
 	public BookDto() {}
 
-	/*public BookDto(Long bookId, String name, Long isbn) {
+	/*public BookDto(Long bookId, String bookName, Long isbn) {
 		this.bookId = bookId;
-		this.name = name;
+		this.name = bookName;
 		this.isbn = isbn;
 	}*/
 	
 	public BookDto(Long bookId, String name, Long isbn, String description) {
 		this.bookId = bookId;
-		this.name = name;
+		this.bookName = name;
 		this.isbn = isbn;
 		this.description = description;
 	}
@@ -39,12 +39,12 @@ public class BookDto extends RepresentationModel<BookDto>{
 	}
 
 
-	public String getName() {
-		return name;
+	public String getBookName() {
+		return bookName;
 	}
 
-	public void setName(String bookName) {
-		this.name = bookName;
+	public void setBookName(String bookName) {
+		this.bookName = bookName;
 	}
 
 	public Long getIsbn() {
@@ -76,6 +76,6 @@ public class BookDto extends RepresentationModel<BookDto>{
 
 	@Override
 	public String toString() {
-		return "GetAllBooksWithAuthorsDto{" + "id="+bookId + ", name=" + name + "isbn=" + isbn+'}';
+		return "GetAllBooksWithAuthorsDto{" + "id="+bookId + ", bookName=" + bookName + "isbn=" + isbn+'}';
 	}
 }

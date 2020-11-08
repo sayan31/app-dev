@@ -17,8 +17,9 @@ import com.sayan.microservices.demospringbootmicroservices.utils.dtotransformers
 @Transactional
 public class AuthorService {
 	
-	/*@Autowired
-	private AuthorRepository authorRepository;*/
+	/*
+	 * @Autowired private AuthorRepository authorRepository;
+	 */
 	@Autowired
 	private BookRepository bookRepository;
 	@Autowired

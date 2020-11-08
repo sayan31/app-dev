@@ -4,10 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 
+@Component
 public interface CreateTestData {
 	public void generate(String arg1, List<BookDto> arg2) throws JsonParseException, JsonMappingException, FileNotFoundException, IOException;
 }

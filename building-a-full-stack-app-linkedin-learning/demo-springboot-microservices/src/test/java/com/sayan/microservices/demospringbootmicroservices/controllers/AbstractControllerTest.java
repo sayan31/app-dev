@@ -13,6 +13,10 @@ public abstract class AbstractControllerTest {
 	
 	CreateTestData createTestData;
 	
+	public void setCreateTestData(CreateTestData createTestData) {
+		this.createTestData = createTestData;
+	}
+
 	public AbstractControllerTest() {}
 	
 	public void create(String arg1, List<BookDto> arg2) throws JsonParseException, JsonMappingException, FileNotFoundException, IOException {

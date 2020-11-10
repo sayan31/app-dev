@@ -30,21 +30,61 @@
 	  @ManyToMany(mappedBy = "authors")
 	  private Set<Book> books = new HashSet<>();
 	 ```
-	* **Always Use Set not List** -
-		* 
+	* **Always Use Set not List to map the associations** -
+		* Hibernate deals with @ManyToMany relationships as two unidirectional @OneToMany associations.
+		* Each association relies on a foreign key stored in the join table.
+		* Therefore, removal of an entity results in deleting all join entries from the join table and reinserting them to reflect the memory content (the current Persistence Context content).
+		* If a ```List``` is used to map the association, while removing an author with a particular ID, 3 SQL statements are triggered for the join table:
+		```sql
+		DELETE FROM book_author_list
+		WHERE book_id = ?
+		Binding: [1]
+	
+		INSERT INTO book_author_list (book_id, author_id)
+		VALUES (?, ?)
+		Binding: [1, 1]
+		
+		INSERT INTO book_author_list (book_id, author_id)
+		VALUES (?, ?)
+		Binding: [1, 3]
+		
+		//and all other existing associations in join table.
+		```
+		* On the other hand, if a ```Set``` is used to map the association, while removing a book with a particular ID, only 1 SQL is triggered:
+		```sql
+		DELETE FROM book_author_set
+		WHERE book_id = ?
+		AND author_id = ?
+		Binding: [1, 2]
+		```
+		* **Therefore, when we use ```Set``` to model the association, it results in performance improvements, specially while removing entities**.
+		* **To order the results of a resultset of entities**, 
+		
 	* **Keep Both Sides of the Association in Sync** - both sides of the association can be kept in sync via helper methods added on the both the entity objects. For example, in the case of Book & Author entities, and assuming that Book is the owner of the relationship, helper methods to remove one particular author, or all authors, can be implemented as follows:
 	 ```java
-	  public void removeBook(Book book) {
-	  	this.books.remove(book);
-		book.getAuthors().remove(this);
+	  public void removeAuthor(Author author) {
+	  	this.authors.remove(author);
+		author.getBooks().remove(this);
 	  }
-	  public void removeBooks() {
-		Iterator<Book> iterator = this.books.iterator();
+	  public void removeAuthors() {
+		Iterator<Author> iterator = this.authors.iterator();
 		while (iterator.hasNext()) {
-			Book book = iterator.next();
-			book.getAuthors().remove(this);
+			Author author = iterator.next();
+			author.getBooks().remove(this);
 			iterator.remove();
 		}
 	  }
 	 ```
-	* **Avoid ```CascadeType.ALL``` and ```CascadeType.REMOVE```** - 
+	* **Avoid ```CascadeType.ALL``` and ```CascadeType.REMOVE```** - In most cases, cascading removals is not a good practice. If it is required, we should reply explicitly on ```CascadeType.PERSIST``` and ```CascadeType.MERGE```. For example, we can define the association for the set of authors of a book as follows (on the owner side):
+	```java
+	  @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	  private Set<Author> authors = new HashSet<>();
+	```
+	* **Set Up the Join Table** - As mentioned before, the junction/join table stores the foreign key relationships between the entities participating in the many-to-many association. This table can be set up on the owner side as follows:
+	```java
+	  @JoinTable(name = "book_author",
+		joinColumns = @JoinColumn(name = "book_id"),
+		inverseJoinColumns = @JoinColumn(name = "author_id"))
+	```
+	* **Lazy Fetching on Both Sides of the Association** - By default, the @ManyToMany association is lazy, and it should be kept that way.
+	* **Properly override toString()** - When overriding toString(), we should account only for basic attributes fetched from the database for the entity. If associations are used, additional SQL statements will be triggered.

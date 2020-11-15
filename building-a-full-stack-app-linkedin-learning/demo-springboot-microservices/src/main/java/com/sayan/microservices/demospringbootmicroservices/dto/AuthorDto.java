@@ -50,6 +50,6 @@ public class AuthorDto extends RepresentationModel<AuthorDto> implements Seriali
 
 	@Override
 	public String toString() {
-		return "AuthorDto{" + "lastName="+lastName+"firstName"+firstName+'}';
+		return "AuthorDto{" + "lastName="+lastName+" firstName="+firstName+'}';
 	}
 }

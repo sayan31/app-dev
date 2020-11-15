@@ -1,11 +1,21 @@
 package com.sayan.microservices.demospringbootmicroservices.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.hateoas.RepresentationModel;
 
-public class AuthorDto extends RepresentationModel<AuthorDto>{
+import java.io.Serializable;
+
+public class AuthorDto extends RepresentationModel<AuthorDto> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	private Long authorId;
+	@JsonProperty("authorLastName")
 	private String lastName;
+	@JsonProperty("authorFirstName")
 	private String firstName;
+	@JsonProperty("authorAbout")
+	private String about;
 	//private List<GetAllBooksWithAuthorsDto> books = new ArrayList<>();
 	
 	public AuthorDto() {}
@@ -17,18 +27,6 @@ public class AuthorDto extends RepresentationModel<AuthorDto>{
 	public void setAuthorId(Long authorId) {
 		this.authorId = authorId;
 	}
-
-	/*public List<GetAllBooksWithAuthorsDto> getBooks() {
-		return books;
-	}
-
-	public void setBooks(List<GetAllBooksWithAuthorsDto> books) {
-		this.books = books;
-	}
-	
-	public void addBook(GetAllBooksWithAuthorsDto book) {
-		books.add(book);
-	}*/
 	
 	public String getLastName() {
 		return lastName;
@@ -46,8 +44,12 @@ public class AuthorDto extends RepresentationModel<AuthorDto>{
 		this.firstName = firstName;
 	}
 
+	public String getAbout() { return about; }
+
+	public void setAbout(String about) { this.about = about; }
+
 	@Override
 	public String toString() {
-		return "GetAuthorWithBooksDto{" + "lastName="+lastName+"firstName"+firstName+'}';
+		return "AuthorDto{" + "lastName="+lastName+"firstName"+firstName+'}';
 	}
 }

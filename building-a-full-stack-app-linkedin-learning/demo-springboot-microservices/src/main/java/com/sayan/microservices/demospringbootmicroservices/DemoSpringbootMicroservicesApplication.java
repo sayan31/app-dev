@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
+import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -56,8 +57,8 @@ public class DemoSpringbootMicroservicesApplication implements CommandLineRunner
 		
 		private static final ObjectMapper objectMapper = new ObjectMapper();
 		
-		public static List<BookTable> readJsonWithObjectMapper(String fileToImport) throws IOException{			
-			List<BookTable> books=objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY).readValue(new FileInputStream(fileToImport), new TypeReference<List<BookTable>>(){});
+		public static List<BookDto> readJsonWithObjectMapper(String fileToImport) throws IOException{
+			List<BookDto> books=objectMapper.setVisibility(PropertyAccessor.FIELD, Visibility.ANY).readValue(new FileInputStream(fileToImport), new TypeReference<List<BookDto>>(){});
 			return books;
 		}		
 		/*

@@ -42,5 +42,10 @@
 			"authorFirstName": "Michael",
 			"authorAbout": "The best-selling author of Liar’s Poker, The Money Culture, The New New Thing, Moneyball, The Blind Side, Panic, Home Game, The Big Short, and Boomerang, among other works, lives in Berkeley, California, with his wife and three children."
 		}]		
-	}  
+	},
+	{
+		"bookName": "The Arthashastra By Kautilya",
+		"description": "The Arthashastra is an ancient Indian treatise on statecraft, economic policy and military strategy, written in Sanskrit.",
+		"isbn": 9780140446036
+	}
 ]

@@ -5,15 +5,23 @@ import org.springframework.hateoas.RepresentationModel;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 @JsonInclude(Include.NON_NULL)
-public class BookDto extends RepresentationModel<BookDto>{
+public class BookDto extends RepresentationModel<BookDto> implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	private Long bookId;
 	private String bookName;
 	private Long isbn;
 	private String description;
-	
-	//private List<GetAuthorWithBooksDto> authors= new ArrayList<>();
+
+	private List<AuthorDto> authors =  new ArrayList<>();
 
 	public BookDto() {}
 
@@ -58,24 +66,20 @@ public class BookDto extends RepresentationModel<BookDto>{
 		return description;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+	public void setDescription(String description) { this.description = description; }
 
-	/*public List<GetAuthorWithBooksDto> getAuthors() {
+	public List<AuthorDto> getAuthors() {
 		return authors;
 	}
 
-	public void setAuthors(List<GetAuthorWithBooksDto> authors) {
+	public void setAuthors(List<AuthorDto> authors) {
 		this.authors = authors;
 	}
-	
-	public void addAuthor(GetAuthorWithBooksDto author) {
-		authors.add(author);
-	}*/
+
+	 public void addAuthor(AuthorDto authorDto){authors.add(authorDto);}
 
 	@Override
 	public String toString() {
-		return "GetAllBooksWithAuthorsDto{" + "id="+bookId + ", bookName=" + bookName + "isbn=" + isbn+'}';
+		return "BookDto{" + "id="+bookId + ", bookName=" + bookName + ", isbn=" + isbn+ ", description=" +description+ '}';
 	}
 }

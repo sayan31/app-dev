@@ -28,7 +28,7 @@ public interface AuthorRepository extends CrudRepository<AuthorTable, Long> {
 	 * @param authorFirstName
 	 * @return an Optional containing a list of all found AuthorTable entities
 	 */
-	Optional<List<AuthorTable>> findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(String authorLastName,String authorFirstName);
+	List<AuthorTable> findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(String authorLastName,String authorFirstName);
 	
 	/**
 	 * Get the set of books for a particular author

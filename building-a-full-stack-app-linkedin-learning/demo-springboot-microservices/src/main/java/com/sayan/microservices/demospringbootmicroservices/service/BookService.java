@@ -1,11 +1,9 @@
 package com.sayan.microservices.demospringbootmicroservices.service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
+import com.sayan.microservices.demospringbootmicroservices.dto.AuthorDto;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,6 +31,8 @@ public class BookService {
 	
 	@Autowired
 	private BookDtoTransformer bookDtoTransformer;
+
+	private static final ModelMapper modelMapper = new ModelMapper();
 		
 	public BookService(BookRepository bookRepository,AuthorRepository authorRepository,BookDtoTransformer bookDtoTransformer) {
 		this.bookRepository = bookRepository;
@@ -53,25 +53,35 @@ public class BookService {
 	 */
 	
 	@Transactional
-	public void addBook(BookTable book) {		
-		AuthorTable removedAuthor=null; 
+	public void addBook(BookDto book) {
+		List<AuthorTable> removedAuthor=new ArrayList<>();
 		 
 		Optional<BookTable> returnedBook = bookRepository.findByBookName(book.getBookName());
-		
-		for(AuthorTable author:book.getAuthor()) {
-			Optional<List<AuthorTable>> returnedAuthors = authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName());
-			if(returnedAuthors.isPresent()) {
-				removedAuthor = returnedAuthors.get().get(0);
-				book.getAuthor().remove(author);
+		Set<AuthorTable> authorsForBook = new HashSet<>();
+		for(AuthorDto authorDto:book.getAuthors()){
+			authorsForBook.add(modelMapper.map(authorDto,AuthorTable.class));
+		}
+
+		if (!authorsForBook.isEmpty()) {
+			for(AuthorTable author:authorsForBook) {
+				List<AuthorTable> returnedAuthors = authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName());
+				if(!returnedAuthors.isEmpty()) {
+					removedAuthor.add(returnedAuthors.get(0));
+					authorsForBook.remove(author);
+				}
 			}
 		}
-		
+
 		if(!returnedBook.isPresent()) {
 			//Case: Book not present in DB, author present/not present in DB
-			bookRepository.save(book).getAuthor().add(removedAuthor);			
+			BookTable savedBook = bookRepository.save(modelMapper.map(book,BookTable.class));
+			authorRepository.saveAll(authorsForBook);
+			savedBook.getAuthor().addAll(removedAuthor);
+			savedBook.getAuthor().addAll(authorsForBook);
 		}else {
 			//Case: Author not present in DB, book present in DB
-			book.getAuthor().forEach(author->returnedBook.get().getAuthor().add(author));
+			//authorsForBook.forEach(author->returnedBook.get().getAuthor().add(author));
+			authorRepository.saveAll(authorsForBook);
 		}				
 	}
 	
@@ -121,16 +131,40 @@ public class BookService {
 			switch(entry.getKey()) {
 				case "name":
 					book.setBookName(entry.getValue().toString());
+					break;
 				case "isbn":
 					book.setIsbn((Long)entry.getValue());
+					break;
 				case "description":
 					book.setDescription(entry.getValue().toString());
+					break;
+				case "authors":
+					List<AuthorDto> authorsForBook = (List<AuthorDto>)entry.getValue();
+					//Set<AuthorDto> authorsForBook=new HashSet<>(authorsFromUpdateMap);
+					for(AuthorDto authorDto:authorsForBook){
+						List<AuthorTable> returnedAuthors =  authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(authorDto.getLastName(),authorDto.getFirstName());
+						if (returnedAuthors.isEmpty()){
+							AuthorTable author = authorRepository.save(modelMapper.map(authorDto,AuthorTable.class));
+							book.addAuthor(author);
+						}else{
+							for (AuthorTable author:returnedAuthors){
+								if (authorDto.getLastName()!=null) {
+									author.setAuthorLastName(authorDto.getLastName());
+								}
+								if (authorDto.getFirstName()!=null) {
+									author.setAuthorFirstName(authorDto.getFirstName());
+								}
+								if (authorDto.getAbout()!=null) {
+									author.setAuthorAbout(authorDto.getAbout());
+								}
+							}
+						}
+					}
+					break;
 			}
 		}
-		BookTable updatedBook = bookRepository.save(book);
-		
 		Set<BookTable> books = new HashSet<>();
-		books.add(updatedBook);
+		books.add(book);
 		List<BookDto> bookDto = bookDtoTransformer.transform(books);
 		
 		return bookDto.get(0);

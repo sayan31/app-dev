@@ -3,15 +3,15 @@ package com.sayan.microservices.demospringbootmicroservices.endpoints;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.sayan.microservices.demospringbootmicroservices.dto.AuthorDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,18 +68,20 @@ public class BookController {
 	@PatchMapping("/{bookId}")
 	public ResponseEntity<?> updateBook(@PathVariable("bookId") Long bookId, @RequestBody BookDto updateBookDto) {
 		BookDto book =null;
-		Map<String,Object> itemsToUpdate = new HashMap<>();
+		Map<String,Object> bookItemsToUpdate = new HashMap<>();
 		if (updateBookDto.getDescription()!=null) {
-			itemsToUpdate.put("description", updateBookDto.getDescription());
+			bookItemsToUpdate.put("description", updateBookDto.getDescription());
 		}
 		if (updateBookDto.getIsbn()!= null) {
-			itemsToUpdate.put("isbn",updateBookDto.getIsbn());
+			bookItemsToUpdate.put("isbn",updateBookDto.getIsbn());
 		}
 		if (updateBookDto.getBookName()!= null) {
-			itemsToUpdate.put("name",updateBookDto.getBookName());
+			bookItemsToUpdate.put("name",updateBookDto.getBookName());
 		}
-		
-		book = bookService.updateBookById(bookId, itemsToUpdate);
+		List<AuthorDto> authorsToUpdate = updateBookDto.getAuthors();
+		bookItemsToUpdate.put("authors",authorsToUpdate);
+
+		book = bookService.updateBookById(bookId, bookItemsToUpdate);
 		
 		return ResponseEntity.ok(EntityModel.of(book));
 	}

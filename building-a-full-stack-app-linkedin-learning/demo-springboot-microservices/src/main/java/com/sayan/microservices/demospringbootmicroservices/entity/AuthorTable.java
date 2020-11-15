@@ -31,7 +31,7 @@ public class AuthorTable implements Serializable{
 	@Column
 	private String authorFirstName;
 	
-	@Column
+	@Column(length=2000)
 	private String authorAbout;
 	
 

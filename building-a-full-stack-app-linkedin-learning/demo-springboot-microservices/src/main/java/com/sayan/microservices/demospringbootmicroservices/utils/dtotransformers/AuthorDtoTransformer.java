@@ -31,6 +31,7 @@ public class AuthorDtoTransformer {
 				authorDto.setAuthorId(author.getId());
 				authorDto.setLastName(author.getAuthorLastName());
 				authorDto.setFirstName(author.getAuthorFirstName());
+				authorDto.setAbout(author.getAuthorAbout());
 			}
 			
 			authorDto.add(linkTo(methodOn(BookController.class).showBook(authorId)).withRel("books"));

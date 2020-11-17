@@ -24,6 +24,8 @@ import com.sayan.microservices.demospringbootmicroservices.exceptions.BooksNotFo
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
 import com.sayan.microservices.demospringbootmicroservices.utils.BookApplicationConstants;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(BookApplicationConstants.BOOK_V1)
 public class BookController {
@@ -66,7 +68,7 @@ public class BookController {
 	}
 	
 	@PatchMapping("/{bookId}")
-	public ResponseEntity<?> updateBook(@PathVariable("bookId") Long bookId, @RequestBody BookDto updateBookDto) {
+	public ResponseEntity<?> updateBook(@PathVariable("bookId") Long bookId, @Valid @RequestBody BookDto updateBookDto) {
 		BookDto book =null;
 		Map<String,Object> bookItemsToUpdate = new HashMap<>();
 		if (updateBookDto.getDescription()!=null) {

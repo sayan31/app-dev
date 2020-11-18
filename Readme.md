@@ -58,7 +58,8 @@
 		Binding: [1, 2]
 		```
 		* **Therefore, when we use ```Set``` to model the association, it results in performance improvements, specially while removing entities**.
-		* **To order the results of a resultset of entities**, 
+		* **To order the results of a resultset of entities**, we need the ```@OrderBy``` annotation (because we use a ```Set``` to model the association, and a ```Set``` does not maintain the order of insertion of items into it.
+		* Using ```@OrderBy``` with ```HashSet``` does not, however, maintain the order of the loaded/fetched ```Set``` in the transient state. To maintain the order in the transient state as well, we need the ```LinkedHashSet``` collection.
 		
 	* **Keep Both Sides of the Association in Sync** - both sides of the association can be kept in sync via helper methods added on the both the entity objects. For example, in the case of Book & Author entities, and assuming that Book is the owner of the relationship, helper methods to remove one particular author, or all authors, can be implemented as follows:
 	 ```java
@@ -88,3 +89,8 @@
 	```
 	* **Lazy Fetching on Both Sides of the Association** - By default, the @ManyToMany association is lazy, and it should be kept that way.
 	* **Properly override toString()** - When overriding toString(), we should account only for basic attributes fetched from the database for the entity. If associations are used, additional SQL statements will be triggered.
+
+## Aspect Oriented Programming in Spring ##
+-------------------------------------------
+* Aspect Oriented Programming is a term that refers to a type of programming that aims to **increase modularity by allowing the separation of cross-cutting concerns**.
+* **Cross-cutting Concern** - 

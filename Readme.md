@@ -93,4 +93,12 @@
 ## Aspect Oriented Programming in Spring ##
 -------------------------------------------
 * Aspect Oriented Programming is a term that refers to a type of programming that aims to **increase modularity by allowing the separation of cross-cutting concerns**.
-* **Cross-cutting Concern** - 
+* **Cross-cutting Concern** - A cross-cutting concern is a functionality that is tangled with business code, which usually cannot be separated from the business logic, e.g. auditing, security, transaction management, caching.
+* **In AOP, additional behavior is added to existing behavior when the application is compiled.** So cross-cutting concerns can be developed separately and mingled with the functionality at compile time. 
+* **This is achieved by defining an advice containing code that will be executed in a location named join point specified by a pointcut**.
+
+### AOP Terminology ###
+- - - -
+* **Aspect**: a class containing code specific to a cross-cutting concern. **A class declaration is recognized in Spring as an aspect if it is annotated with the ```@Aspect``` annotation**.
+* **Weaving**: it refers to aspects being combined with other types of objects to create an **advised object**.
+* 

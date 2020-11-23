@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {HomeComponent} from "./home/home.component";
 import { BookComponent } from './book/book.component';
+import {HomeService} from "./services/home.service";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { BookComponent } from './book/book.component';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [HomeService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

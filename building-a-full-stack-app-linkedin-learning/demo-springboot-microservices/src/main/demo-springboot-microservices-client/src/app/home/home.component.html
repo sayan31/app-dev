@@ -12,8 +12,9 @@
   <hr>
   <section>
     <app-book
-      *ngFor="let book of books"
+      *ngFor="let book of books._embedded"
       [book]="book"></app-book>
   </section>
+  <ng-template #noData>No Data Available</ng-template>
 </body>
 </html>

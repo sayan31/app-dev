@@ -93,4 +93,22 @@
 ## Aspect Oriented Programming in Spring ##
 -------------------------------------------
 * Aspect Oriented Programming is a term that refers to a type of programming that aims to **increase modularity by allowing the separation of cross-cutting concerns**.
-* **Cross-cutting Concern** - 
+* **Cross-cutting Concern** - A cross-cutting concern is a functionality that is tangled with business code, which usually cannot be separated from the business logic, e.g. auditing, security, transaction management, caching.
+* **In AOP, additional behavior is added to existing behavior when the application is compiled.** So cross-cutting concerns can be developed separately and mingled with the functionality at compile time. 
+* **This is achieved by defining an advice containing code that will be executed in a location named join point specified by a pointcut**.
+
+### AOP Terminology ###
+- - - -
+* **Aspect**: a class containing code specific to a cross-cutting concern. **A class declaration is recognized in Spring as an aspect if it is annotated with the ```@Aspect``` annotation**.
+* **Weaving**: it refers to aspects being combined with other types of objects to create an **advised object**.
+* **Join point**: **in Spring AOP, a joint point is always a method execution**. Basically a join point is the execution point where aspect behaviour & base behaviour join.
+* **Target object**: object to which the aspect applies.
+* **Target method**: the advised method.
+* **Advice**: action taken by an aspect at a join point. Spring AOP has various advices, which are listed below:
+	* **Before advice**: **methods annotated with ```@Before``` will execute before the join point**. They do not prevent the execution of the target method unless they throw an exception.
+	* **After returning advice**: **methods annotated with ```@AfterReturning``` will execute after a join point completes normally**, i.e. the target method returns normally without throwing an exception.
+	* **After throwing advice**: **methods annotated with ```@AfterThrowing``` will execute after a join point completes by throwing an exception**.
+	* **After (finally) advice**: **methods annotated with ```@After``` will execute after a join point completes, no matter how the execution ended**.
+	* **Around advice**: **methods annotated with ```@Around``` intercept the target method and surround the join point, i.e. it can perform custom behavior before & after the invocation**. It has the responsibility of choosing to perform the invocation or return its own value.
+* **Pointcut**: **a predicate used to identify join points**. the advice will execute on any join point matching the pointcut expression. Pointcut expressions can be defined as arguments for Advice annotations or as arguments for the ```@Pointcut``` annotation.
+* **AOP proxy**: **the object created by AOP to implement the aspect contracts**. In Spring, proxy objects can be **JDK dynamic proxies** or **CGLIB proxies**. For JDK dynamic proxies, the object being proxied must implement an interface. For CGLIB proxies, objects can be proxied by subclassing.

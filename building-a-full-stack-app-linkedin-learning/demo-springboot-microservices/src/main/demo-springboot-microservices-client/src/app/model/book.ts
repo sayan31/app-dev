@@ -1,4 +1,4 @@
 export interface Book {
-  bookName:string ;
-  isbn:any ;
+  bookName: string;
+  isbn: string;
 }

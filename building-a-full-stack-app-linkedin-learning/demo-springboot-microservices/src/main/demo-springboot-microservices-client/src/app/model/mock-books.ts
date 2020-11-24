@@ -1,4 +1,4 @@
-import { Book } from '../model/book';
+/*import { Book } from './getallbooks.response';
 
 export const BOOKS: Book[] = [
   {
@@ -9,4 +9,4 @@ export const BOOKS: Book[] = [
     "bookName": "Annapurna",
     "isbn": 35618906
   }
-];
+];*/

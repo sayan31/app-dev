@@ -10,9 +10,9 @@
   <h3>Test</h3>
   <p>Lorem ipsum...</p>-->
   <hr>
-  <section>
+  <section *ngIf="books as books else noData">
     <app-book
-      *ngFor="let book of books._embedded"
+      *ngFor="let book of books"
       [book]="book"></app-book>
   </section>
   <ng-template #noData>No Data Available</ng-template>

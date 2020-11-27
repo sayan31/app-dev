@@ -62,3 +62,9 @@ h2 {
   color: #ffffff;
   text-decoration: none;
 }
+.bookImage{
+  width: 100%;
+}
+.container{
+  align-items: center;
+}

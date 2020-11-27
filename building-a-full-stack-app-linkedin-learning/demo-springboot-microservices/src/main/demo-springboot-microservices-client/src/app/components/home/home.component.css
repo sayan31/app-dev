@@ -26,7 +26,7 @@ section {
   align-content: flex-start;
 }
 section > app-book {
-  margin: 10px;
+  margin: 5px;
 }
 footer {
   text-align: right;

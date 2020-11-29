@@ -8,10 +8,7 @@
   padding: 10px;
   color: #bdc2c5;
 }
-h2 {
-  font-size: 1.6em;
-  flex: 1;
-}
+/*
 :host.medium-movies {
   border-color: #53ace4;
 }
@@ -23,9 +20,9 @@ h2 {
 }
 :host.medium-series > h2 {
   color: #45bf94;
-}
+}*/
 .tools {
-  margin-top: 8px;
+  margin-top: 9px;
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -35,6 +32,7 @@ h2 {
   height: 24px;
   fill: #bdc2c5;
 }
+
 .favorite.is-favorite {
   fill: #37ad79;
 }
@@ -62,9 +60,13 @@ h2 {
   color: #ffffff;
   text-decoration: none;
 }
-.bookImage{
+img.bookImage{
   width: 100%;
+  height: 179px;
 }
 .container{
-  align-items: center;
+  /*align-items: center;*/
+  max-height: 176px;
+  max-width: 116px;
+  padding: unset;
 }

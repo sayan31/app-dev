@@ -1,6 +1,6 @@
 <div class="container" (mouseover)="showTools=true" (mouseout)="showTools=false">
   <img class="bookImage" [src]="path">
-  <div class="tools">
+  <div class="tools" *ngIf="showTools">
     <svg
       mwFavorite
       class="favorite" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

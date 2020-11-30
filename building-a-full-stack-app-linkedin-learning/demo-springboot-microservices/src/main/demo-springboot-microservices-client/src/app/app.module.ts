@@ -8,12 +8,16 @@ import {HttpClientModule} from "@angular/common/http";
 import {HomeComponent} from "./components/home/home.component";
 import { BookComponent } from './components/book/book.component';
 import {HomeService} from "./services/home.service";
+import { AuthComponent } from './components/auth/auth.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    BookComponent
+    BookComponent,
+    AuthComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,

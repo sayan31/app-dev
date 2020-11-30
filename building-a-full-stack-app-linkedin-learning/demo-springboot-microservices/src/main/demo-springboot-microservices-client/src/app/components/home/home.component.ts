@@ -7,11 +7,10 @@ import {HomeService} from "../../services/home.service";
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit{
-  //books$: Observable<Book[]>;
   books: Array<any>;
   constructor(private homeService: HomeService){}
 
   ngOnInit() {
-    this.homeService.showBooks().subscribe(response => {this.books=response.body["_embedded"].bookDtoes;console.log(this.books)});
+    this.homeService.showBooks().subscribe(response => {this.books=response.body["_embedded"].bookDtoes});
   }
 }

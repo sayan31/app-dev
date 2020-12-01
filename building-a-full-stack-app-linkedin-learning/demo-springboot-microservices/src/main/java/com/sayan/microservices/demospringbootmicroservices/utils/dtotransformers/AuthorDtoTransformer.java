@@ -14,15 +14,15 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.sayan.microservices.demospringbootmicroservices.dto.AuthorDto;
 import com.sayan.microservices.demospringbootmicroservices.endpoints.BookController;
-import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
+import com.sayan.microservices.demospringbootmicroservices.entity.Author;
 
 @Component
 public class AuthorDtoTransformer {
 	
-	public List<AuthorDto> transform(Set<AuthorTable> result) {
+	public List<AuthorDto> transform(Set<Author> result) {
 		
 		final Map<Long, AuthorDto> authorsDtoMap = new HashMap<>();
-		for (AuthorTable author : result) {
+		for (Author author : result) {
 			Long authorId = author.getId();
 			
 			AuthorDto authorDto = authorsDtoMap.get(authorId);

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import com.sayan.microservices.demospringbootmicroservices.endpoints.AuthorController;
 import com.sayan.microservices.demospringbootmicroservices.endpoints.BookController;
-import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
+import com.sayan.microservices.demospringbootmicroservices.entity.Book;
 
 @Component
 public class BookDtoTransformer {
@@ -41,10 +41,10 @@ public class BookDtoTransformer {
 		return new ArrayList<>(booksDtoMap.values());
 	}
 
-	public List<BookDto> transform(Set<BookTable> resultSet) {
+	public List<BookDto> transform(Set<Book> resultSet) {
 		final Map<Long, BookDto> booksDtoMap = new HashMap<>();
 
-		for (BookTable book : resultSet) {
+		for (Book book : resultSet) {
 			Long bookId = book.getId();
 			BookDto bookDto = booksDtoMap.get(bookId);
 			if (null == bookDto) {

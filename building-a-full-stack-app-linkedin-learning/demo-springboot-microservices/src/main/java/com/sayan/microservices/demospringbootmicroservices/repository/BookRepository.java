@@ -9,46 +9,46 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
-import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
+import com.sayan.microservices.demospringbootmicroservices.entity.Author;
+import com.sayan.microservices.demospringbootmicroservices.entity.Book;
 
 /**
  * @author S
- * This repository holds all query methods used to query {@link BookTable} entities
+ * This repository holds all query methods used to query {@link Book} entities
  */
 @Repository
 @Transactional(readOnly = true)
-public interface BookRepository extends CrudRepository<BookTable, Long> {
+public interface BookRepository extends CrudRepository<Book, Long> {
 	
 	/**
 	 * Look up a book by its name
 	 * 
 	 * @param bookName
-	 * @return an Optional containing a {@link BookTable} object
+	 * @return an Optional containing a {@link Book} object
 	 */
-	Optional<BookTable> findByBookName(String bookName);
+	Optional<Book> findByBookName(String bookName);
 	
 	/**
 	 * Lookup all books
 	 * 
-	 * @return a list of {@link BookTable} objects
+	 * @return a list of {@link Book} objects
 	 */
 	@Query("SELECT b.id AS bookId, b.bookName AS name, b.isbn AS isbn, b.description AS description "			
-			+"FROM BookTable b")
+			+"FROM Book b")
 	List<Object[]> findAllBooks();
 	
 	/**
 	 * Get the set of authors for a particular book
 	 * 
 	 * @param bookId
-	 * @return {@link Set} of {@link AuthorTable} object
+	 * @return {@link Set} of {@link Author} object
 	 */
-	@Query("SELECT b.authors FROM BookTable b WHERE b.id = ?1")
-	Set<AuthorTable> findByBookId(Long bookId);
+	@Query("SELECT b.authors FROM Book b WHERE b.id = ?1")
+	Set<Author> findByBookId(Long bookId);
 	
 	/**
-	 * Adds a {@link BookTable} instance to the database
+	 * Adds a {@link Book} instance to the database
 	 */
 	@Transactional
-	<S extends BookTable>S save(S bookTable);		
+	<S extends Book>S save(S bookTable);
 }

@@ -17,7 +17,7 @@ import javax.persistence.ManyToMany;
  */
 @Entity
 //@Table(uniqueConstraints= {@UniqueConstraint(columnNames={"authorLastName", "authorFirstName"})})
-public class AuthorTable implements Serializable{
+public class Author implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
@@ -43,7 +43,7 @@ public class AuthorTable implements Serializable{
 	 * This results in cleaner and more efficient underlying SQL queries
 	 */
 	@ManyToMany(mappedBy="authors")
-	private Set<BookTable> books = new HashSet<>();
+	private Set<Book> books = new HashSet<>();
 
 	public Long getId() {
 		return id;
@@ -77,11 +77,11 @@ public class AuthorTable implements Serializable{
 		this.authorAbout = authorAbout;
 	}
 
-	public Set<BookTable> getBooks() {
+	public Set<Book> getBooks() {
 		return books;		
 	}
 
-	public void setBooks(Set<BookTable> books) {
+	public void setBooks(Set<Book> books) {
 		this.books=books;
 	}	
 	
@@ -99,9 +99,16 @@ public class AuthorTable implements Serializable{
             return false;
         }
 
-        return id != null && id.equals(((AuthorTable) obj).id);
+        return id != null && id.equals(((Author) obj).id);
 	}
-	
+
+	/*
+	 * Hashcode method is made to return constant due to the following scenario:
+	 * A transient object has a null value for ID, and after it becomes managed it has a valid ID
+	 * This implies that the same object can fail the equality test if hashcode is implemented using
+	 * the DB generated id field.
+	 * To take care of this, hashcode returns a constant value.
+	 */
 	@Override
 	public int hashCode() {
 		return 2021;

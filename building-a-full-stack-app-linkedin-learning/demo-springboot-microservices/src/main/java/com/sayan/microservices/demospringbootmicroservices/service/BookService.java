@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
-import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
-import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
+import com.sayan.microservices.demospringbootmicroservices.entity.Author;
+import com.sayan.microservices.demospringbootmicroservices.entity.Book;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
 import com.sayan.microservices.demospringbootmicroservices.repository.BookRepository;
 import com.sayan.microservices.demospringbootmicroservices.utils.dtotransformers.BookDtoTransformer;
@@ -54,17 +54,17 @@ public class BookService {
 	
 	@Transactional
 	public void addBook(BookDto book) {
-		List<AuthorTable> removedAuthor=new ArrayList<>();
+		List<Author> removedAuthor=new ArrayList<>();
 		 
-		Optional<BookTable> returnedBook = bookRepository.findByBookName(book.getBookName());
-		Set<AuthorTable> authorsForBook = new HashSet<>();
+		Optional<Book> returnedBook = bookRepository.findByBookName(book.getBookName());
+		Set<Author> authorsForBook = new HashSet<>();
 		for(AuthorDto authorDto:book.getAuthors()){
-			authorsForBook.add(modelMapper.map(authorDto,AuthorTable.class));
+			authorsForBook.add(modelMapper.map(authorDto, Author.class));
 		}
 
 		if (!authorsForBook.isEmpty()) {
-			for(AuthorTable author:authorsForBook) {
-				List<AuthorTable> returnedAuthors = authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName());
+			for(Author author:authorsForBook) {
+				List<Author> returnedAuthors = authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(author.getAuthorLastName(),author.getAuthorFirstName());
 				if(!returnedAuthors.isEmpty()) {
 					removedAuthor.add(returnedAuthors.get(0));
 					authorsForBook.remove(author);
@@ -74,13 +74,13 @@ public class BookService {
 
 		if(!returnedBook.isPresent()) {
 			//Case: Book not present in DB, author present/not present in DB
-			BookTable savedBook = bookRepository.save(modelMapper.map(book,BookTable.class));
+			Book savedBook = bookRepository.save(modelMapper.map(book, Book.class));
 			authorRepository.saveAll(authorsForBook);
-			savedBook.getAuthor().addAll(removedAuthor);
-			savedBook.getAuthor().addAll(authorsForBook);
+			Set<Author> authors = savedBook.getAuthor();
+			authors.addAll(removedAuthor);
+			authors.addAll(authorsForBook);
 		}else {
 			//Case: Author not present in DB, book present in DB
-			//authorsForBook.forEach(author->returnedBook.get().getAuthor().add(author));
 			authorRepository.saveAll(authorsForBook);
 		}				
 	}
@@ -103,14 +103,14 @@ public class BookService {
 	 * @return list of {@link BookDto} objects
 	 */
 	public List<BookDto> getBooksByAuthor(Long authorId){
-		Set<BookTable> books = authorRepository.findByAuthorId(authorId);
+		Set<Book> books = authorRepository.findByAuthorId(authorId);
 		List<BookDto> booksDto = bookDtoTransformer.transform(books);
 		return booksDto;
 	}
 	
 	public BookDto getBookById(Long bookId) {
-		BookTable book = bookRepository.findById(bookId).get();
-		Set<BookTable> books = new HashSet<>();
+		Book book = bookRepository.findById(bookId).get();
+		Set<Book> books = new HashSet<>();
 		books.add(book);
 		List<BookDto> bookDto = bookDtoTransformer.transform(books);
 		return bookDto.get(0);
@@ -126,7 +126,7 @@ public class BookService {
 	 */
 	@Transactional
 	public BookDto updateBookById(Long bookId, Map<String,Object> updateMap) {
-		BookTable book = bookRepository.findById(bookId).get();
+		Book book = bookRepository.findById(bookId).get();
 		for(Map.Entry<String, Object> entry: updateMap.entrySet()) {
 			switch(entry.getKey()) {
 				case "name":
@@ -142,12 +142,12 @@ public class BookService {
 					List<AuthorDto> authorsForBook = (List<AuthorDto>)entry.getValue();
 					//Set<AuthorDto> authorsForBook=new HashSet<>(authorsFromUpdateMap);
 					for(AuthorDto authorDto:authorsForBook){
-						List<AuthorTable> returnedAuthors =  authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(authorDto.getLastName(),authorDto.getFirstName());
+						List<Author> returnedAuthors =  authorRepository.findByAuthorLastNameIgnoreCaseContainingAndAuthorFirstNameIgnoreCaseContaining(authorDto.getLastName(),authorDto.getFirstName());
 						if (returnedAuthors.isEmpty()){
-							AuthorTable author = authorRepository.save(modelMapper.map(authorDto,AuthorTable.class));
+							Author author = authorRepository.save(modelMapper.map(authorDto, Author.class));
 							book.addAuthor(author);
 						}else{
-							for (AuthorTable author:returnedAuthors){
+							for (Author author:returnedAuthors){
 								if (authorDto.getLastName()!=null) {
 									author.setAuthorLastName(authorDto.getLastName());
 								}
@@ -163,7 +163,7 @@ public class BookService {
 					break;
 			}
 		}
-		Set<BookTable> books = new HashSet<>();
+		Set<Book> books = new HashSet<>();
 		books.add(book);
 		List<BookDto> bookDto = bookDtoTransformer.transform(books);
 		

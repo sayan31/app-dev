@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.sayan.microservices.demospringbootmicroservices.dto.AuthorDto;
-import com.sayan.microservices.demospringbootmicroservices.entity.AuthorTable;
+import com.sayan.microservices.demospringbootmicroservices.entity.Author;
 import com.sayan.microservices.demospringbootmicroservices.repository.AuthorRepository;
 import com.sayan.microservices.demospringbootmicroservices.repository.BookRepository;
 import com.sayan.microservices.demospringbootmicroservices.utils.dtotransformers.AuthorDtoTransformer;
@@ -37,7 +37,7 @@ public class AuthorService {
 	 * @return list of {@link AuthorDto} objects
 	 */
 	public List<AuthorDto> findAuthorsByBookId(Long bookId){
-		Set<AuthorTable> authors = bookRepository.findByBookId(bookId);
+		Set<Author> authors = bookRepository.findByBookId(bookId);
 		List<AuthorDto> authorDto=authorDtoTransformer.transform(authors);
 		return authorDto;
 	}

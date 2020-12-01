@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sayan.microservices.demospringbootmicroservices.entity.BookTable;
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
 
 @SpringBootApplication

@@ -25,7 +25,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import com.sayan.microservices.demospringbootmicroservices.endpoints.BookController;
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
-import com.sayan.microservices.demospringbootmicroservices.utils.BookApplicationConstants;
+import com.sayan.microservices.demospringbootmicroservices.utils.ApplicationConstants;
 import com.sayan.microservices.demospringbootmicroservices.utils.implementations.TestDataForBookController;
 
 @RunWith(SpringRunner.class)
@@ -53,7 +53,7 @@ public class BookControllerTest extends AbstractControllerTest{
 		//End of Create
 		
 		when(bookService.getAllBooks()).thenReturn(books);		
-		mvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/"+BookApplicationConstants.BOOK_V1).accept(MediaType.APPLICATION_JSON)).
+		mvc.perform(MockMvcRequestBuilders.get("http://localhost:8080/"+ ApplicationConstants.BOOK_V1).accept(MediaType.APPLICATION_JSON)).
 								andExpect(status().isOk()).
 								andExpect(content().contentType(MediaType.APPLICATION_JSON)).
 								andExpect(jsonPath("$._embedded.bookDtoes",hasSize(books.size())));

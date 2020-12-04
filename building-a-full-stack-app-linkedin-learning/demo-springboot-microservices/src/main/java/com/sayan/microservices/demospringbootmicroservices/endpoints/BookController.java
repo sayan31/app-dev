@@ -11,7 +11,6 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.sayan.microservices.demospringbootmicroservices.dto.BookDto;
 import com.sayan.microservices.demospringbootmicroservices.exceptions.BooksNotFoundException;
 import com.sayan.microservices.demospringbootmicroservices.service.BookService;
-import com.sayan.microservices.demospringbootmicroservices.utils.BookApplicationConstants;
+import com.sayan.microservices.demospringbootmicroservices.utils.ApplicationConstants;
 
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(BookApplicationConstants.BOOK_V1)
+@RequestMapping(ApplicationConstants.BOOK_V1)
 public class BookController {
 	
 	@Autowired

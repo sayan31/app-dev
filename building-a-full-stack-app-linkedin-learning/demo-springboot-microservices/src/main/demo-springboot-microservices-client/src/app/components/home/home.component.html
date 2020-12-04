@@ -1,14 +1,10 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-  <!--<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-  <hr>
-  <h3>Test</h3>
-  <p>Lorem ipsum...</p>-->
   <hr>
   <section *ngIf="books as books else noData">
     <app-book class="bookComponent"
@@ -17,4 +13,12 @@
   </section>
   <ng-template #noData>No Data Available</ng-template>
 </body>
-</html>
+</html>-->
+<div class="row card-deck" *ngIf="books as books else noData">
+  <div class="col-lg-4 col-md-6 mb-4" >
+    <app-book class="bookComponent"
+              *ngFor="let book of books"
+              [book]="book"></app-book>
+  </div>
+</div>
+<ng-template #noData>No Data Available</ng-template>

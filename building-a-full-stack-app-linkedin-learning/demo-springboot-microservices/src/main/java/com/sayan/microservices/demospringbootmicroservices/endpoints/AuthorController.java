@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sayan.microservices.demospringbootmicroservices.dto.AuthorDto;
 import com.sayan.microservices.demospringbootmicroservices.service.AuthorService;
-import com.sayan.microservices.demospringbootmicroservices.utils.BookApplicationConstants;
+import com.sayan.microservices.demospringbootmicroservices.utils.ApplicationConstants;
 
 @RestController
-@RequestMapping(BookApplicationConstants.AUTHOR_V1)
+@RequestMapping(ApplicationConstants.AUTHOR_V1)
 public class AuthorController {
 	
 	@Autowired

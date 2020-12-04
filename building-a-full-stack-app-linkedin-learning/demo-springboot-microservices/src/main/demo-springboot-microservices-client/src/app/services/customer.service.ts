@@ -10,6 +10,6 @@ export class CustomerService {
   constructor(private httpClient: HttpClient) { }
 
   register(customer:Customer){
-    return this.httpClient.post<any>(`${UrlSettings.BASE_URL}/auth/register`,customer)
+    return this.httpClient.post<any>(`${UrlSettings.BASE_URL}/auth/v1/register`,customer)
   }
 }

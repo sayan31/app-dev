@@ -1,11 +1,29 @@
-<div class="row card-deck" *ngIf="books as books else noData">
-  <div class="col-lg-4 col-md-6 mb-4" *ngFor="let book of books">
-    <div class="card text-center">
-
+<!--<div class="row pb-5 mb-4" *ngIf="products as books else noData">
+  <div class="col-lg-4 col-md-6 mb-4 mb-lg-0" *ngFor="let book of books">
+    <div class="card card rounded shadow-sm border-0">
+      <div class="card-header">
+        <h5>{{book.bookName}}</h5>
+      </div>
+      <div class="card-body p-4">
+        <img class="card-img-top" [src]="book.imagePath" alt="" class="img-fluid d-block mx-auto mb-3">
+      </div>
     </div>
-    <app-book class="bookComponent"
-
-              [book]="book"></app-book>
   </div>
+</div>
+<ng-template #noData>No Data Available</ng-template>-->
+<!--<app-book *ngIf="booksC.books as books else noData"></app-book>-->
+
+<div class="row pb-5 mb-4" *ngIf="booksC.books as books else noData">
+  <!--<div class="col-lg-4 col-md-6 mb-4 mb-lg-0" *ngFor="let book of books">
+    <div class="card card rounded shadow-sm border-0">
+      <div class="card-header">
+        <h5>{{book.bookName}}</h5>
+      </div>
+      <div class="card-body p-4">
+        <img class="card-img-top" [src]="book.imagePath" alt="" class="img-fluid d-block mx-auto mb-3">
+      </div>
+    </div>
+  </div>-->
+  <app-book></app-book>
 </div>
 <ng-template #noData>No Data Available</ng-template>

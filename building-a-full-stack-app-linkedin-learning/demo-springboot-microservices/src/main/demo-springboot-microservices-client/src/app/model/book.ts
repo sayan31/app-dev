@@ -1,4 +1,5 @@
 export interface Book {
   bookName: string;
-  isbn: string;
+  isbn: number;
+  imagePath:string;
 }

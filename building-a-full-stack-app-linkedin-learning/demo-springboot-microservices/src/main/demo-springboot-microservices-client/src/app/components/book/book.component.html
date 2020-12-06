@@ -1,3 +1,4 @@
+<!--
 <div class="card text-center">
   <img class="bookImage" [src]="path">
   <div class="tools" *ngIf="showTools">
@@ -7,9 +8,9 @@
       <path d="M12 9.229c.234-1.12 1.547-6.229 5.382-6.229 2.22 0 4.618 1.551 4.618 5.003 0 3.907-3.627 8.47-10 12.629-6.373-4.159-10-8.722-10-12.629 0-3.484 2.369-5.005 4.577-5.005 3.923 0 5.145 5.126 5.423 6.231zm-12-1.226c0 4.068 3.06 9.481 12 14.997 8.94-5.516 12-10.929 12-14.997 0-7.962-9.648-9.028-12-3.737-2.338-5.262-12-4.27-12 3.737z"
       />
     </svg>
-    <!--<a class="delete" (click)="onDelete()">
+    &lt;!&ndash;<a class="delete" (click)="onDelete()">
       remove
-    </a>-->
+    </a>&ndash;&gt;
     <a class="details">
       watch
     </a>
@@ -17,3 +18,17 @@
 </div>
 
 
+-->
+<div class="row pb-5 mb-4" *ngIf="books as books else noData">
+ <div class="col-lg-4 col-md-6 mb-4 mb-lg-0" *ngFor="let book of books">
+    <div class="card card rounded shadow-sm border-0">
+      <div class="card-header">
+        <h5>{{book.bookName}}</h5>
+      </div>
+      <div class="card-body p-4">
+        <img class="card-img-top" [src]="book.imagePath" alt="" class="img-fluid d-block mx-auto mb-3">
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noData>No Data Available</ng-template>

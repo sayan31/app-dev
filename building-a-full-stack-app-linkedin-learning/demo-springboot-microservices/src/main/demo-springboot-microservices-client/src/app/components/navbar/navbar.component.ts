@@ -9,8 +9,9 @@ import {HomeComponent} from "../home/home.component";
 export class NavbarComponent implements OnInit {
   private collapsed = true;
 
-  @ViewChild('homeC')
-  homeC: HomeComponent;
+  /*Define a route in place of this*/
+  /*@ViewChild('homeC')
+  homeC: HomeComponent;*/
 
   constructor() { }
 
@@ -21,8 +22,8 @@ export class NavbarComponent implements OnInit {
     this.collapsed = !this.collapsed;
   }
 
-  reset(){
+  /*reset(){
     this.homeC.reset();
-  }
+  }*/
 
 }

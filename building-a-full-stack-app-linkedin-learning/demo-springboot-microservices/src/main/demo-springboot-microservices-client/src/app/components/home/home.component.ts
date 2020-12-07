@@ -8,48 +8,33 @@ import {Book} from "../../model/book";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements AfterViewInit{
+export class HomeComponent implements OnInit{
 
-  //products: Book[]=[];
-  @ViewChild(BookComponent)
-  booksC:BookComponent;
+  books: Book[]=[];
+  /*booksC:BookComponent=new BookComponent();*/
 
-  constructor(){}
+  constructor(private homeService:HomeService){}
 
-  /*ngOnInit() {
+  ngOnInit() {
     this.reset();
   }
 
   reset(){
-    this.booksC.reset();
-  }*/
-
-  ngAfterViewInit(): void {
-    /*console.log(this.booksC.books);*/
-    this.booksC.reset();
-    //this.products=this.booksC.books;
+    this.loadBooks();
   }
 
-  /*loadBooks() {
+/*  ngAfterViewInit(): void {
+    /!*console.log(this.booksC.books);*!/
+    this.booksC.reset();
+    //this.products=this.booksC.books;
+  }*/
+
+  loadBooks() {
     this.homeService.showBooks()
       .subscribe(
         response => {
           this.books=response.body["_embedded"].bookDtoes;
-          this.books.forEach(book=>this.loadImage(book));
+          /*this.books.forEach(book=>this.loadImage());*/
         });
   }
-
-  loadImage(book:Book) {
-    if(book.isbn==9780140120905){
-      book.imagePath='assets/the-predators-ball.jpg';
-    }else if (book.isbn==35618906){
-      book.imagePath='/assets/annapurna.jpg';
-    }else if (book.isbn==9781324002642){
-      book.imagePath='/assets/the-fifth-risk.jpg';
-    }else if (book.isbn==9780393351590){
-      book.imagePath='/assets/flash-boys.jpg';
-    }else if (book.isbn==9780140446036){
-      book.imagePath='/assets/arthashastra.jpg';
-    }
-  }*/
 }

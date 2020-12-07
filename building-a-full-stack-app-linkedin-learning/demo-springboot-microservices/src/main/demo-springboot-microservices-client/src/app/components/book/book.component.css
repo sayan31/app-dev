@@ -1,3 +1,4 @@
+/*
 :host {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,7 @@
   padding: 10px;
   color: #bdc2c5;
 }
-/*
+!*
 :host.medium-movies {
   border-color: #53ace4;
 }
@@ -20,7 +21,7 @@
 }
 :host.medium-series > h2 {
   color: #45bf94;
-}*/
+}
 .tools {
   margin-top: 9px;
   display: flex;
@@ -65,8 +66,12 @@ img.bookImage{
   height: 179px;
 }
 .container{
-  /*align-items: center;*/
+  !*align-items: center;*!
   max-height: 176px;
   max-width: 116px;
   padding: unset;
+}
+*/
+.embed-responsive .card-img-top {
+  object-fit: cover;
 }

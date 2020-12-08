@@ -1,5 +1,9 @@
 # Some useful resources
 --------------------------
+## Contents ##
+--------------------------
+- [Aspect Oriented Programming in Spring](#aspect-oriented-programming-in-spring)          
+	  
 ## Spring Transactional Management ##
 -----------------------------------
 * [Article about Spring's @Transactional annotation](https://www.marcobehler.com/guides/spring-transaction-management-transactional-in-depth)
@@ -90,7 +94,7 @@
 	* **Lazy Fetching on Both Sides of the Association** - By default, the @ManyToMany association is lazy, and it should be kept that way.
 	* **Properly override toString()** - When overriding toString(), we should account only for basic attributes fetched from the database for the entity. If associations are used, additional SQL statements will be triggered.
 
-## Aspect Oriented Programming in Spring ##
+Aspect Oriented Programming in Spring<a name= "aspect-oriented-programming-in-spring"></a>
 -------------------------------------------
 * Aspect Oriented Programming is a term that refers to a type of programming that aims to **increase modularity by allowing the separation of cross-cutting concerns**.
 * **Cross-cutting Concern** - A cross-cutting concern is a functionality that is tangled with business code, which usually cannot be separated from the business logic, e.g. auditing, security, transaction management, caching.

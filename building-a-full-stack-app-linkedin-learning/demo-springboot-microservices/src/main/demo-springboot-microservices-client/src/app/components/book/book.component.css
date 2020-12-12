@@ -72,6 +72,12 @@ img.bookImage{
   padding: unset;
 }
 */
-.embed-responsive .card-img-top {
-  object-fit: cover;
+
+embed-responsive-9by16{
+  padding-bottom: 177.77% ;
+  object-fit: contain;
 }
+img{
+  vertical-align: middle;
+}
+

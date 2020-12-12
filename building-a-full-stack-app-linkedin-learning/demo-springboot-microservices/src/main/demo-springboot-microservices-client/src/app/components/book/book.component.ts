@@ -19,15 +19,15 @@ export class BookComponent implements OnInit{
 
   loadImage() {
     if(this.book.isbn==9780140120905){
-      this.imagePath='assets/the-predators-ball.jpg';
+      this.imagePath='assets/images/the-predators-ball.jpg';
     }else if (this.book.isbn==35618906){
-      this.imagePath='/assets/annapurna.jpg';
+      this.imagePath='assets/images/annapurna.jpg';
     }else if (this.book.isbn==9781324002642){
-      this.imagePath='/assets/the-fifth-risk.jpg';
+      this.imagePath='assets/images/the-fifth-risk.jpg';
     }else if (this.book.isbn==9780393351590){
-      this.imagePath='/assets/flash-boys.jpg';
+      this.imagePath='assets/images/flash-boys.jpg';
     }else if (this.book.isbn==9780140446036){
-      this.imagePath='/assets/arthashastra.jpg';
+      this.imagePath='assets/images/arthashastra.jpg';
     }
   }
 }

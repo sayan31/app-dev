@@ -11,7 +11,6 @@ import {Book} from "../../model/book";
 export class HomeComponent implements OnInit{
 
   books: Book[]=[];
-  /*booksC:BookComponent=new BookComponent();*/
 
   constructor(private homeService:HomeService){}
 
@@ -23,18 +22,11 @@ export class HomeComponent implements OnInit{
     this.loadBooks();
   }
 
-/*  ngAfterViewInit(): void {
-    /!*console.log(this.booksC.books);*!/
-    this.booksC.reset();
-    //this.products=this.booksC.books;
-  }*/
-
   loadBooks() {
     this.homeService.showBooks()
       .subscribe(
         response => {
           this.books=response.body["_embedded"].bookDtoes;
-          /*this.books.forEach(book=>this.loadImage());*/
         });
   }
 }

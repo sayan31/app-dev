@@ -16,7 +16,4 @@ export class HomeService {
     let API_URL=`${UrlSettings.BASE_URL}/books/v1`;
     return this.httpClient.get<GetResponse[]>(API_URL,{ headers: this.headers,observe: 'response' });
   }
-  showBookImage(){
-
-  }
 }

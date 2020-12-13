@@ -1,22 +1,28 @@
-<!--<nav class="navbar-expand-lg navbar-dark bg-dark fixed-top navbar-inverse">-->
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbarResponsive"
-              aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
-              (click)="toggleCollapsed()">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <!--<a class="navbar-brand" routerLink="/">Logo</a>
-      &lt;!&ndash;<a class="navbar-brand" href="#" (click)="reset()">Home
-        <span class="sr-only">(current)</span>
-      </a>&ndash;&gt;
-      <a class="navbar-brand" routerLink="/orders">Orders</a>-->
-    </div>
-    <div class="collapse navbar-collapse" id="navbarResponsive" [ngClass]="{'collapse': collapsed, 'navbar-collapse': true}">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active" routerLinkActive="active"><a routerLink="/register"><span class="glyphicon glyphicon-log-in"></span> Register</a></li>
-        <li class="nav-item active" routerLinkActive="active"><a routerLink="/auth"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      </ul>
-    </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand">Navbar <span class="sr-only">(current)</span></a>
+  <div class="d-flex flex-row order-2 order-lg-3">
+    <a href="#" class="navbar-text"><i class="fa fa-shopping-cart fa-lg" style="color: white;"></i></a>
+    <ul class="nav navbar-nav flex-row" routerLinkActive="active">
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+    </ul>
   </div>
-<!--</nav>-->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#appNav" aria-controls="appNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse float-right" id="appNav">
+    <ul class="nav navbar-nav" routerLinkActive="active">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/auth">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/register">Register</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<router-outlet></router-outlet>

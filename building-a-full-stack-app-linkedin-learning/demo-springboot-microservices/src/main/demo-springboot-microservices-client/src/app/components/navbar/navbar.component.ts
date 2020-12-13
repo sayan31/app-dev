@@ -1,22 +1,21 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {HomeComponent} from "../home/home.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-/*  templateUrl:'./navbar.component.actual.html',*/
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  private collapsed = true;
 
-  constructor() { }
+  constructor(private router:Router) { }
 
   ngOnInit() {
   }
 
-  toggleCollapsed(): void {
-    this.collapsed = !this.collapsed;
+  resetApp(){
+    this.router.navigate(['']);
   }
 
 }
